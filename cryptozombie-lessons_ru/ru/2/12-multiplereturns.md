@@ -1,6 +1,6 @@
 ---
-title: Handling Multiple Return Values
-actions: ['checkAnswer', 'hints']
+title: Работа с несколькими возвращаемыми значениями
+actions: ['Проверить', 'Подсказать']
 material:
   editor:
     language: sol
@@ -38,7 +38,7 @@ material:
             _createZombie("NoName", newDna);
           }
 
-          // define function here
+          // Здесь задай функцию
 
         }
       "zombiefactory.sol": |
@@ -122,7 +122,7 @@ material:
       }
 ---
 
-This `getKitty` function is the first example we've seen that returns multiple values. Let's look at how to handle them:
+Функция `getKitty` — первый видимый нами пример возвращения множественных значиний. Посмотрим, как с ними обращаться:
 
 ```
 function multipleReturns() internal returns(uint a, uint b, uint c) {
@@ -133,30 +133,30 @@ function processMultipleReturns() external {
   uint a;
   uint b;
   uint c;
-  // This is how you do multiple assignment:
+  // Вот как выполнять несколько заданий:
   (a, b, c) = multipleReturns();
 }
 
-// Or if we only cared about one of the values:
+// А если нам важно только одно значение...
 function getLastReturnValue() external {
   uint c;
-  // We can just leave the other fields blank:
+  // ...мы просто оставим другое поле пустым
   (,,c) = multipleReturns();
 }
 ```
 
-# Put it to the test
+# Проверь себя
 
-Time to interact with the CryptoKitties contract!
+Пробил час начала взаимодействия с контрактом Криптокотиков! 
 
-Let's make a function that gets the kitty genes from the contract:
+Создадим функцию, которая получает гены котика из контракта:
 
-1. Make a function called `feedOnKitty`. It will take 2 `uint` parameters, `_zombieId` and `_kittyId`, and should be a `public` function.
+1. Создай функцию, которая называется `feedOnKitty`. Она будет брать 2 параметра `uint` — `_zombieId` и `_kittyId`, и она должна быть `public` — открытой функцией.
 
-2. The function should first declare a `uint` named `kittyDna`.
+2. Сначала функция задает `uint` под названием `kittyDna`.
 
-  > Note: In our `KittyInterface`, `genes` is a `uint256` — but if you remember back to lesson 1, `uint` is an alias for `uint256` — they're the same thing.
+  > Обрати внимание: В нашем `KittyInterface` (интерфесе криптокотика), `genes` — это `uint256`, но если ты помнишь Урок 1, `uint` — синоним для `uint256`, это одно и то же.
 
-3. The function should then call the `kittyContract.getKitty` function with `_kittyId` and store `genes` in `kittyDna`. Remember — `getKitty` returns a ton of variables. (10 to be exact — I'm nice, I counted them for you!). But all we care about is the last one, `genes`. Count your commas carefully!
+3. Затем наша функция потом должна вызывать функцию `kittyContract.getKitty` с помощью `_kittyId` и сохранять `genes` в `kittyDna`. Запомни — `getKitty` возвращает тебе целый ворох переменных. (10 если быть точным — мы посчитали за тебя, не благодари). Но единственный важный нам — это последний, `genes`. Считай запятые внимательно!
 
-4. Finally, the function should call `feedAndMultiply`, and pass it both `_zombieId` and `kittyDna`.
+4. В конце функция должна вызывать `feedAndMultiply` (питаться и размножаться), и сообщать ей `_zombieId` и `kittyDna`.

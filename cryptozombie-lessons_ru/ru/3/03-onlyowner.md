@@ -1,6 +1,6 @@
 ---
-title: onlyOwner Function Modifier
-actions: ['checkAnswer', 'hints']
+title: Модификатор функции onlyOwner (единственный владелец)
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -30,7 +30,7 @@ material:
 
           KittyInterface kittyContract;
 
-          // Modify this function:
+          // Модифицируй функцию:
           function setKittyContractAddress(address _address) external {
             kittyContract = KittyInterface(_address);
           }
@@ -183,22 +183,24 @@ material:
       }
 ---
 
-Now that our base contract `ZombieFactory` inherits from `Ownable`, we can use the `onlyOwner` function modifier in `ZombieFeeding` as well.
+Теперь наш базовый контракт `ZombieFactory` наследует от `Ownable` и мы можем использовать модификатор `onlyOwner` в `ZombieFeeding`. Now that our base contract `ZombieFactory` inherits from `Ownable`, we can use the `onlyOwner` function modifier in `ZombieFeeding` as well.
 
-This is because of how contract inheritance works. Remember:
+Так работает наследование в контрактах. Запомни:
 
 ```
 ZombieFeeding is ZombieFactory
 ZombieFactory is Ownable
 ```
 
-Thus `ZombieFeeding` is also `Ownable`, and can access the functions / events / modifiers from the `Ownable` contract. This applies to any contracts that inherit from `ZombieFeeding` in the future as well.
+Таким образом, `ZombieFeeding` также и `Ownable`, он может получить доступ к функциям / событиям / модификаторам из контракта `Ownable`. Это относится к любым контрактам, которые будут наследовать `ZombieFeeding` в будущем.
 
-## Function Modifiers
+## Модификаторы функций
 
-A function modifier looks just like a function, but uses the keyword `modifier` instead of the keyword `function`. And it can't be called directly like a function can — instead we can attach the modifier's name at the end of a function definition to change that function's behavior.
+Модификатор функции выглядит точно так же, как функция, но использует ключевое слово `modifier` вместо `function`. Его нельзя вызвать напрямую, как функцию - вместо этого добавить модификатор в конце определения функции и изменить поведение функции.
 
-Let's take a closer look by examining `onlyOwner`:
+A function modifier looks just like a function, but uses the keyword `modifier` instead of the keyword `function`. And it can't be called directly like a function can — instead we can attach the modifier's name at the end of a function definition to change that functions behavior.
+
+Посмотрим внимательныее на примере `onlyOwner`:
 
 ```
 /**
@@ -216,25 +218,32 @@ We would use this modifier as follows:
 contract MyContract is Ownable {
   event LaughManiacally(string laughter);
 
-  // Note the usage of `onlyOwner` below:
+  // Обрати внаминае на использование `onlyOwner` ниже:
   function likeABoss() external onlyOwner {
     LaughManiacally("Muahahahaha");
   }
 }
 ```
 
+Видишь модификатор `onlyOwner` в функции `likeABoss`? Когда ты вызываешь `likeABoss`, код внутри `onlyOwner` выполняется **в первую очередь**. Затем, когда он доходит до оператора `_;` в `onlyOwner`, он возвращается и выполняет код внутри `likeABoss`.
+
 Notice the `onlyOwner` modifier on the `likeABoss` function. When you call `likeABoss`, the code inside `onlyOwner` executes **first**. Then when it hits the `_;` statement in `onlyOwner`, it goes back and executes the code inside `likeABoss`.
 
+Хотя есть и другие способы использования модификаторов, одним из наиболее распространенных вариантов использования является добавление быстрой проверки `require` перед выполнением функции.
 So while there are other ways you can use modifiers, one of the most common use-cases is to add quick `require` check before a function executes.
 
+В случае `onlyOwner`, добавление этого модификатора в функцию делает так, что только **единственный владелец**, например ты, может вызвать эту функцию.
 In the case of `onlyOwner`, adding this modifier to a function makes it so **only** the **owner** of the contract (you, if you deployed it) can call that function.
 
+> Обрати внимание: предоставление владельцу особой власти над подобным контрактом часто необходимо. Но этим могут злоупотреблять. Например, владелец может добавить бэкдор, который переведет всех зомби на его адрес!
 >Note: Giving the owner special powers over the contract like this is often necessary, but it could also be used maliciously. For example, the owner could add a backdoor function that would allow him to transfer anyone's zombies to himself!
 
->So it's important to remember that just because a DApp is on Ethereum does not automatically mean it's decentralized — you have to actually read the full source code to make sure it's free of special controls by the owner that you need to potentially worry about. There's a careful balance as a developer between maintaining control over a DApp such that you can fix potential bugs, and building an owner-less platform that your users can trust to secure their data.
+> Важно помнить, что DApp на Ethereum не означает автоматически децентрализацию. Читай исходники полностью, чтобы убедиться, что он чист от средств передачи контроля другому владельцу. Для разработчика это нахождение баланса междуконтролем над DApp для исправления ошибок, и созданием платформы без владельца, которой ваши пользователи могут доверять, чтобы защитить свои данные.
+>
+So it's important to remember that just because a DApp is on Ethereum does not automatically mean it's decentralized — you have to actually read the full source code to make sure it's free of special controls by the owner that you need to potentially worry about. There's a careful balance as a developer between maintaining control over a DApp such that you can fix potential bugs, and building an owner-less platform that your users can trust to secure their data.
 
-## Put it to the test
+## Проверь себя
 
-Now we can restrict access to `setKittyContractAddress` so that no one but us can modify it in the future.
+Теперь мы можем запретить доступ к `setKittyContractAddress` чтобы никто не могу его изменить в будущем.
 
-1. Add the `onlyOwner` modifier to `setKittyContractAddress`.
+1. Добавь модификатор `onlyOwner` к `setKittyContractAddress`.

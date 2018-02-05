@@ -1,6 +1,6 @@
 ---
-title: Using an Interface
-actions: ['checkAnswer', 'hints']
+title: Используем интерфейс
+actions: ['Проверить', 'Подсказать']
 material:
   editor:
     language: sol
@@ -28,7 +28,7 @@ material:
         contract ZombieFeeding is ZombieFactory {
 
           address ckAddress = 0x06012c8cf97BEaD5deAe237070F9587f8E7A266d;
-          // Initialize kittyContract here using `ckAddress` from above
+          // Здесь запусти контракт котика, взяв сверху `ckAddress` 
 
           function feedAndMultiply(uint _zombieId, uint _targetDna) public {
             require(msg.sender == zombieToOwner[_zombieId]);
@@ -114,7 +114,7 @@ material:
       }
 ---
 
-Continuing our previous example with `NumberInterface`, once we've defined the interface as:
+Продолжим наш предыдущий пример с `NumberInterface`, как только зададим интерфейс:
 
 ```
 contract NumberInterface {
@@ -122,27 +122,26 @@ contract NumberInterface {
 }
 ```
 
-We can use it in a contract as follows:
-
+Мы можем использовать его в контракте следующим образом:
 ```
 contract MyContract {
   address NumberInterfaceAddress = 0xab38... 
-  // ^ The address of the FavoriteNumber contract on Ethereum
+  // ^ Адрес контракта FavoriteNumber в Ethereum
   NumberInterface numberContract = NumberInterface(NumberInterfaceAddress)
-  // Now `numberContract` is pointing to the other contract
+  // Сейчас `numberContract` указывает на другие контракты
 
   function someFunction() public {
-    // Now we can call `getNum` from that contract:
+    // Теперь можно вызвать `getNum` из контракта:
     uint num = numberContract.getNum(msg.sender);
-    // ...and do something with `num` here
+    // ...и сделать что-то с `num` здесь
   }
 }
 ```
 
-In this way, your contract can interact with any other contract on the Ethereum blockchain, as long they expose those functions as `public` or `external`.
+Этим способом контракт будет взаимодействовать с всеми другими контрактами в блокчейне Ethereum, если они задают функции как `public` (открытые) или `external` (внешние). 
 
-# Put it to the test
+# Проверь себя
 
-Let's set up our contract to read from the CryptoKitties smart contract!
+Установим наш контракт на чтение из смарт-контракта Криптокотиков!
 
-1. I've saved the address of the CryptoKitties contract in the code for you, under a variable named `ckAddress`. In the next line, create a `KittyInterface` named `kittyContract`, and initialize it with `ckAddress` — just like we did with `numberContract` above.
+1. Мы нашли для тебя адрес контракта Криптокотиков и сохранили его внутри кода под переменным именем `ckAddress`. В следующей строчке создай `KittyInterface` (интерфейс котика) и запусти его с помощью `ckAddress` — так же, как мы делали с `numberContract` вверху.

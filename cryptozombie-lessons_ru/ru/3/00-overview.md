@@ -1,15 +1,15 @@
 ---
-title: Advanced Solidity Concepts
-header: "Lesson 3: Advanced Solidity Concepts"
+title: Продвинутые концепции Solidity 
+header: "Урок 3: Продвинутые концепции Concepts"
 roadmap: roadmap3.png
 ---
 
-Grr... I just can't slow you down, can I? Your Solidity skills are formidable, human...
+Грррр... Да тебя не остановить, человек! Твой Solidity становится по настоящему опасным...
 
-Now that you've got some experience coding Solidity under your belt, we're going to dive into some of the more technical aspects of Ethereum development.
+Теперь, когда у тебя в запасе есть опыт кода Solidity, давай погрузимся в более технические аспекты разработки Ethereum.
 
-This lesson will be a bit less flashy (sorry, no plot twists!). But you’ll learn some really important concepts that will take you closer to building real DApps — things like **contract ownership, gas costs, code optimization, and security**.
+Этот урок будет не такой яркий (сюжет буксует). Зато ты научишься действительно важным аспектам, которые приблизят тебя к построению настоящих DApps (децентрализованных приложений) — например **принадлежность контрактов, стоимость газа, оптимизация кода и безопасность**.
 
-You've been warned — no kitties and rainbows in Lesson 3!
+Мы тебя предупредили — ни котиков, ни радужных единорогов в Уроке 3!
 
-But a lot of densely-packed Solidity knowledge. We strongly recommended that you complete Lesson 2 before starting this one.
+Зато много плотно упакованных знаний Solidity. Настоятельно рекомендуем закончить Урок 2, перед тем как приступить к третьему.

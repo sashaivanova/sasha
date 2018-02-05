@@ -1,6 +1,6 @@
 ---
-title: Gas
-actions: ['checkAnswer', 'hints']
+title: Газ
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -21,7 +21,7 @@ material:
             struct Zombie {
                 string name;
                 uint dna;
-                // Add new data here
+                // Здесь добавь новые данные
             }
 
             Zombie[] public zombies;
@@ -179,35 +179,45 @@ material:
       }
 ---
 
-Great! Now we know how to update key portions of the DApp while preventing other users from messing with our contracts.
+Круто! Теперь мы знаем, как обновлять ключевые части DApp, при этом заставляя других пользователей держаться подальше от наших контрактов, чтобы не испортили. Now we know how to update key portions of the DApp while preventing other users from messing with our contracts.
 
-Let's look at another way Solidity is quite different from other programming languages:
+Давай посмотрим на еще одно серьезное отличие Solidity от других языков программирования:
 
-## Gas — the fuel Ethereum DApps run on
+## Газ — это топливо для DApps на Ethereum
 
-In Solidity, your users have to pay every time they execute a function on your DApp using a currency called **_gas_**. Users buy gas with Ether (the currency on Ethereum), so your users have to spend ETH in order to execute functions on your DApp. 
+В Solidity пользователи должны заплатить за каждый раз, когда они вызывают функцию вашего DApp, с помощью валюты под названием ** _газ_ **. Газ покупают вместе с эфиром, валютой Ethereum, таким образом пользователи платят ETH, чтобы выполнить функцию приложения DApp.In Solidity, your users have to pay every time they execute a function on your DApp using a currency called **_gas_**. Users buy gas with Ether (the currency on Ethereum), so your users have to spend ETH in order to execute functions on your DApp. 
+
+Количество газа для выполнения функции зависит от сложности логики функции. У любой операции есть **_стоимость газа_**, она основана на количестве вычислительных ресурсов, необходимых для выполнения  операции (например, запись в хранилище намного дороже, чем добавление двух целых чисел). Общая **_стоимость газа_** вашей функции - сумма затрат газа на все операции.
 
 How much gas is required to execute a function depends on how complex that function's logic is. Each individual operation has a **_gas cost_** based roughly on how much computing resources will be required to perform that operation (e.g. writing to storage is much more expensive than adding two integers). The total **_gas cost_** of your function is the sum of the gas costs of all its individual operations.
 
+Поскольку запуск функций стоит реальных денег пользователям, оптимизация кода гораздо важнее в Ethereum, чем в других языках программирования. Если код написан небрежно, а пользователям придется платить за выполнение функций, в пересчете на тысячи пользователей это может означать миллионы долларов ненужных комиссий.
+
 Because running functions costs real money for your users, code optimization is much more important in Ethereum than in other programming languages. If your code is sloppy, your users are going to have to pay a premium to execute your functions — and this could add up to millions of dollars in unnecessary fees across thousands of users.
 
-## Why is gas necessary?
+## Зачем нужен газ?
+
+Ethereum похож на большой, медленный, но крайне безопасный компьютер. Когда ты выполняешь функцию, каждая нода в сети должна запустить ту же самую функцию проверки результата на выходе. Это то, что делает Ethereum децентрализованным, а данные в нем неизменяемыми а не подверженными цензуре.
 
 Ethereum is like a big, slow, but extremely secure computer. When you execute a function, every single node on the network needs to run that same function to verify its output — thousands of nodes verifying every function execution is what makes Ethereum decentralized, and its data immutable and censorship-resistant.
 
+Создатели Ethereum хотели быть уверенными, что никто не сможет заспамить сеть, запустив бесконечный цикл, или сожрать все сетевые ресурсы интенсивными вычислениями. Поэтому они сделали транзакции платными — пользователи должны платить за использование вычислительных мощностей и за хранение.
+
 The creators of Ethereum wanted to make sure someone couldn't clog up the network with an infinite loop, or hog all the network resources with really intensive computations. So they made it so transactions aren't free, and users have to pay for computation time as well as storage.
+
+> Обрати внимание. Для сайдчейнов, как например для того, который авторы КриптоЗомби используют в Loom Network, это правило не обязательно. Нет смысла запускать игру вроде World of Warcraft в главной сети Ethereum - стоимость газа будет реальным барьером. Но зато такая игра может работать на сайдчейне с другим алгоритмом консенсус. В следующих уроках мы вернемся к тому, какие DApps развертывать на сайдчейне, а какие в главной сети Ethereum.
 
 > Note: This isn't necessarily true for sidechains, like the ones the CryptoZombies authors are building at Loom Network. It probably won't ever make sense to run a game like World of Warcraft directly on the Ethereum mainnet — the gas costs would be prohibitively expensive. But it could run on a sidechain with a different consensus algorithm. We'll talk more about what types of DApps you would want to deploy on sidechains vs the Ethereum mainnet in a future lesson.
 
-## Struct packing to save gas
+## Как упаковать структуру, чтобы сэкономить газ
 
-In Lesson 1, we mentioned that there are other types of `uint`s: `uint8`, `uint16`, `uint32`, etc.
+Мы упоминали в первом уроке, что есть разные типы `uint`: `uint8`,` uint16`, `uint32` и так далее. 
 
-Normally there's no benefit to using these sub-types because Solidity reserves 256 bits of storage regardless of the `uint` size. For example, using `uint8` instead of `uint` (`uint256`) won't save you any gas.
+Обычно использование этих подтипов нецелесообразно, поскольку Solidity резервирует 256 бит в хранилище независимо от размера `uint`. Например, использование `uint8` вместо `uint` (`uint256`) не экономит газ.
 
-But there's an exception to this: inside `struct`s.
+Но есть и исключение внутри структур.
 
-If you have multiple `uint`s inside a struct, using a smaller-sized `uint` when possible will allow Solidity to pack these variables together to take up less storage. For example:
+Если внутри структуры несколько `uint`, использование по возможности `uint` меньшего размера позволит Solidity объединить переменные вместе и уменьшить объем хранилища. Например:
 
 ```
 struct NormalStruct {
@@ -222,25 +232,21 @@ struct MiniMe {
   uint c;
 }
 
-// `mini` will cost less gas than `normal` because of struct packing
+// `mini` будет стоить меньше, чем `normal` из-за упаковки структуры
 NormalStruct normal = NormalStruct(10, 20, 30);
 MiniMe mini = MiniMe(10, 20, 30); 
 ```
 
-For this reason, inside a struct you'll want to use the smallest integer sub-types you can get away with.
+Так что внутри структур можешь использовать наименьшие целочисленные подтипы, которые позволяют запустить код.
 
-You'll also want to cluster identical data types together (i.e. put them next to each
-other in the struct) so that Solidity can minimize the required storage space. For example, a struct with
-fields `uint c; uint32 a; uint32 b;` will cost less gas than a struct with fields `uint32 a; uint c; uint32 b;`
-because the `uint32` fields are clustered together.
+Еще можно объединить в кластеры идентичные типы данных, то есть поставить их в структуре рядом друг с другом. Так Solidity оптимизирует требующееся пространство в хранилище. К примеру, структура поля `uint c; uint32 a; uint32 b;` будет стоить меньше газа, чем структура с полями `uint32 a; uint c; uint32 b;`, потому что поля `uint32` группируются вместе.
 
+## Проверь себя
 
-## Put it to the test
+В этом уроке мы собираемся добавить зомби 2 новые фишки: `level` (уровень) и `readyTime` (время готовности) — послдняя будет использоваться для установки времени восстановления, чтобы ограничить частоту питания зомби. 
 
-In this lesson, we're going to add 2 new features to our zombies: `level` and `readyTime` — the latter will be used to implement a cooldown timer to limit how often a zombie can feed. 
+Вернемся назад к `zombiefactory.sol`.
 
-So let's jump back to `zombiefactory.sol`.
+1. Добавь еще два свойства к структуре `Zombie`: `level` (`uint32`) и `readyTime` (тоже `uint32`). Мы хотим объединить эти типы данных, давай поместим их в конец структуры.
 
-1. Add two more properties to our `Zombie` struct: `level` (a `uint32`), and `readyTime` (also a `uint32`). We want to pack these data types together, so let's put them at the end of the struct.
-
-32 bits is more than enough to hold the zombie's level and timestamp, so this will save us some gas costs by packing the data more tightly than using a regular `uint` (256-bits).
+32 бита достаточно для хранения уровня и времени восстановления зомби. Мы сэкономили немного газа, упаковав данные поплотнее, чем обычный 256-битный `uint`.

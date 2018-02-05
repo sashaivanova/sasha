@@ -1,6 +1,6 @@
 ---
-title: Inheritance
-actions: ['checkAnswer', 'hints']
+title: Наследование
+actions: ['Проверить', 'Подсказать']
 material:
   editor:
     language: sol
@@ -44,7 +44,7 @@ material:
 
       }
 
-      // Start here
+      // Начало здесь
 
     answer: >
       pragma solidity ^0.4.19;
@@ -93,30 +93,30 @@ material:
 
 ---
 
-Our game code is getting quite long. Rather than making one extremely long contract, sometimes it makes sense to split your code logic across multiple contracts to organize the code.
+Код уже довольно длинный! Чтобы не делать один длиннющий контракт и организовать код, можно разбить логику кода на несколько контрактов. 
 
-One feature of Solidity that makes this more manageable is contract **_inheritance_**:
+В Solidity есть фича, которая помогает управлять длинными контрактами — **_наследование_**:
 
 ```
 contract Doge {
   function catchphrase() public returns (string) {
-    return "So Wow CryptoDoge";
+    return "Клевый песик";
   }
 }
 
 contract BabyDoge is Doge {
   function anotherCatchphrase() public returns (string) {
-    return "Such Moon BabyDoge";
+    return "Клевый щеночек";
   }
 }
 ```
 
-`BabyDoge` **_inherits_** from `Doge`. That means if you compile and deploy `BabyDoge`, it will have access to both `catchphrase()` and `anotherCatchphrase()` (and any other public functions we may define on `Doge`).
+`BabyDoge` (щенок) **_наследует_** `Doge` (Псу!). Если ты скомпилируешь и развернешь `BabyDoge`, он получит доступ и к `catchphrase()` и к `anotherCatchphrase()` (и ко всем остальным открытым функциям, которые мы опишем в `Doge`).
 
-This can be used for logical inheritance (such as with a subclass, a `Cat` is an `Animal`). But it can also be used simply for organizing your code by grouping similar logic together into different classes.
+Это можно использовать для логического наследования (как с подтипами, `Cat` (кошка) это `Animal` (животное)), или для простой организации кода, группируя вместе одинаковую логику  внутри различных классов. 
 
-# Put it to the test
+# Проверь себя
 
-In the next chapters, we're going to be implementing the functionality for our zombies to feed and multiply. Let's put this logic into its own class that inherits all the methods from `ZombieFactory`.
+В следующих главах мы собираемся наделить зомби способностью питаться и размножаться. Поместим эту логику в класс, который наследует все методы из `ZombieFactory`. 
 
-1. Make a contract called `ZombieFeeding` below `ZombieFactory`. This contract should inherit from our `ZombieFactory` contract.
+1. Создай контракт под названием `ZombieFeeding` сразу под `ZombieFactory`. Этот контракт наследует контракту из нашей Фабрики Зомби `ZombieFactory`. 

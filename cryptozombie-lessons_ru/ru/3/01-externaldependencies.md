@@ -1,6 +1,6 @@
 ---
-title: Immutability of Contracts
-actions: ['checkAnswer', 'hints']
+title: Неизменяемость контрактов
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:

@@ -1,6 +1,6 @@
 ---
-title: Import
-actions: ['checkAnswer', 'hints']
+title: Импорт
+actions: ['Проверить', 'Подсказать']
 material:
   editor:
     language: sol
@@ -8,7 +8,7 @@ material:
       "zombiefeeding.sol": |
         pragma solidity ^0.4.19;
 
-        // put import statement here
+        // Здесь помести оператор импорта
 
         contract ZombieFeeding is ZombieFactory {
 
@@ -63,11 +63,11 @@ material:
 
 ---
 
-Whoa! You'll notice we just cleaned up the code to the right, and you now have tabs at the top of your editor. Go ahead, click between the tabs to try it out.
+Зацени! Мы снесли код справа, и теперь у тебя есть вкладки в верхней части редактора. Вперед, попереключайся между вкладками, чтобы попробовать. 
 
-Our code was getting pretty long, so we split it up into multiple files to make it more manageable. This is normally how you will handle long codebases in your Solidity projects.
+Код уже довольно длинный, поэтому мы разбили его на несколько файлов, чтобы сделать его более послушным. Именно так управляют длинным кодом в проектах Solidity. 
 
-When you have multiple files and you want to import one file into another, Solidity uses the `import` keyword:
+Когда у тебя несколько файлов и нужно импортировать один в другой, Solidity использует ключевое слово `import`:
 
 ```
 import "./someothercontract.sol";
@@ -77,10 +77,10 @@ contract newContract is SomeOtherContract {
 }
 ```
 
-So if we had a file named `someothercontract.sol` in the same directory as this contract (that's what the `./` means), it would get imported by the compiler.
+Если у нас есть файл `someothercontract.sol` в той же директории, что и этот контракт (`/` нам говорит об этом), то компилятор инпортирует его.
 
-# Put it to the test
+# Проверь себя
 
-Now that we've set up a multi-file structure, we need to use `import` to read the contents of the other file:
+Теперь, когда у нас мульфайловая структура, воспользуемся `import` для чтения содержимого другого файла:
 
-1. Import `zombiefactory.sol` into our new file, `zombiefeeding.sol`. 
+1. Импортируй `zombiefactory.sol` в новый файл `zombiefeeding.sol`. 

@@ -1,6 +1,6 @@
 ---
-title: Data Types
-actions: ['checkAnswer', 'hints']
+title: Типы данных
+actions: ['Проверить', 'Подсказать']
 material:
   editor:
     language: sol
@@ -8,12 +8,12 @@ material:
     answer: >
 ---
 
-Solidity's code is encapsulated in contracts. A contract is basically...
+Код в Solidity помещают внутри **контрактов**. `contract` — это просто...
 
 ```
 contract HelloWorld
 
 ```
 
-# Put it to the test
+# Проверь себя
 

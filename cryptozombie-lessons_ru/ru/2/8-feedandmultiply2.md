@@ -1,6 +1,6 @@
 ---
-title: Zombie DNA
-actions: ['checkAnswer', 'hints']
+title: ДНК Зомби 
+actions: ['Проверить', 'Подсказать']
 material:
   editor:
     language: sol
@@ -15,7 +15,7 @@ material:
           function feedAndMultiply(uint _zombieId, uint _targetDna) public {
             require(msg.sender == zombieToOwner[_zombieId]);
             Zombie storage myZombie = zombies[_zombieId];
-            // start here
+            // Начало здесь
           }
 
         }
@@ -76,31 +76,31 @@ material:
       }
 ---
 
-Let's finish writing the `feedAndMultiply` function.
+Давайте допишем функицию `feedAndMultiply` (питаться и размножаться).
 
-The formula for calculating a new zombie's DNA is simple: It's simply that average between the feeding zombie's DNA and the target's DNA. 
+Формула вычиления ДНК нового зомби проста: среднее значение между ДНК охотника и ДНК жертвы.
 
-For example:
+Пример:
 
 ```
 function testDnaSplicing() public {
   uint zombieDna = 2222222222222222;
   uint targetDna = 4444444444444444;
   uint newZombieDna = (zombieDna + targetDna) / 2;
-  // ^ will be equal to 3333333333333333
+  // ^ будет равно 3333333333333333
 }
 ```
 
-Later we can make our formula more complicated if we want to, like adding some randomness to the new zombie's DNA. But for now we'll keep it simple — we can always come back to it later.
+При желании позже можно усложнить формулу, добавить элемент случайности в ДНК нового зомби. Но пока можно оставить так, вернуться к этому мы всегда успеем.
 
-# Put it to the test
+# Проверь себя
 
-1. First we need to make sure that `_targetDna` isn't longer than 16 digits. To do this, we can set `_targetDna` equal to `_targetDna % dnaModulus` to only take the last 16 digits.
+1. Первым делом нам нужно убедиться, что `_targetDna` не длиннее, чем 16 цифр. Для этого зададим `_targetDna` равной `_targetDna % dnaModulus`, чтобы взять только последние 16 цифр.  
 
-2. Next our function should declare a `uint` named `newDna`, and set it equal to the average of `myZombie`'s DNA and `_targetDna` (as in the example above).
+2. Затем функция должна задать `uint` под названием `newDna` и приравнять ее к среднему значению между ДНК `myZombie` и `_targetDna` (как в примере выше). 
 
-  > Note: You can access the properties of `myZombie` using `myZombie.name` and `myZombie.dna`
+  > Обрати внимание: чтобы получить доступ к свойствам `myZombie`, используй `myZombie.name` и `myZombie.dna`
 
-3. Once we have the new DNA, let's call `_createZombie`. You can look at the `zombiefactory.sol` tab if you forget which parameters this function needs to call it. Note that it requires a name, so let's set our new zombie's name to `"NoName"` for now — we can write a function to change zombies' names later.
+3. Как только мы получим новую ДНК, вызовем `_createZombie`. Можешь посмотреть во вкладке `zombiefactory.sol`, если забыли, какие параметры нужны функции для вызова ее. Обрати внимание, что ей нужно имя, поэтому пока установим имя зомби `"NoName"` — потом можно дописать функцию изменения имени зомби.
 
-> Note: For you Solidity whizzes, you may notice a problem with our code here! Don't worry, we'll fix this in the next chapter ;)
+> Внимание: видишь ошибку в коде? Не беспокойся, мы исправим ее в следующей главе;) 

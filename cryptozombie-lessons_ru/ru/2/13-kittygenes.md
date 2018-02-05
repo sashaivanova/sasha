@@ -1,6 +1,6 @@
 ---
-title: "Bonus: Kitty Genes"
-actions: ['checkAnswer', 'hints']
+title: Бонус: гены котика
+actions: [['Проверить', 'Подсказать']
 material:
   editor:
     language: sol
@@ -30,20 +30,20 @@ material:
           address ckAddress = 0x06012c8cf97BEaD5deAe237070F9587f8E7A266d;
           KittyInterface kittyContract = KittyInterface(ckAddress);
 
-          // Modify function definition here:
+          // Здесь измени значение функции:
           function feedAndMultiply(uint _zombieId, uint _targetDna) public {
             require(msg.sender == zombieToOwner[_zombieId]);
             Zombie storage myZombie = zombies[_zombieId];
             _targetDna = _targetDna % dnaModulus;
             uint newDna = (myZombie.dna + _targetDna) / 2;
-            // Add an if statement here
+            // А здесь добавь оператор «или»: 
             _createZombie("NoName", newDna);
           }
 
           function feedOnKitty(uint _zombieId, uint _kittyId) public {
             uint kittyDna;
             (,,,,,,,,,kittyDna) = kittyContract.getKitty(_kittyId);
-            // And modify function call here:
+            // Здесь измени вызов функции:
             feedAndMultiply(_zombieId, kittyDna);
           }
 
@@ -133,40 +133,40 @@ material:
       }
 ---
 
-Our function logic is now complete... but let's add in one bonus feature.
+Мы закончили с логикой функции... но давай добавим небольшую бонусную фишку. 
 
-Let's make it so zombies made from kitties have some unique feature that shows they're cat-zombies.
+Сделаем так, чтобы зомби, полученные из котиков, обладали уникальной характеристику, показывающей, что они именно зомбокотики.
 
-To do this, we can add some special kitty code in the zombie's DNA.
+Для этого добавим специальный котиковый код в ДНК зомби. 
 
-If you recall from lesson 1, we're currently only using the first 12 digits of our 16 digit DNA to determine the zombie's appearance. So let's use the last 2 unused digits to handle "special" characteristics. 
+Если помнишь, в первом уроке мы использовали только первые 12 цифр из 16-циферного ДНК, чтобы определить внешний вид зомби. Поэтому давай возьмем последние 2 цифры из неиспользованных, чтобы разобраться со «специальными» характеристиками. 
 
-We'll say that cat-zombies have `99` as their last two digits of DNA (since cats have 9 lives). So in our code, we'll say `if` a zombie comes from a cat, then set the last two digits of DNA to `99`.
+Допустим, последние две цифры ДНК зомбокотика `99` (ведь известно, что у кошки 9 жизней). В нашем коде, `if` (если) зомби происходит от котика, то последние две цифры в ДНК мы установим как `99`.
 
-## If statements
+## Оператор «или»
 
-If statements in Solidity look just like javascript:
+Оператор «или» в Solidity похож на javascript:
 
 ```
 function eatBLT(string sandwich) public {
-  // Remember with strings, we have to compare their keccak256 hashes
-  // to check equality
+  // Не забудь, что в строках надо сравнивать keccak256-хэши,
+  // чтобы проверить, равны они или нет.
   if (keccak256(sandwich) == keccak256("BLT")) {
     eat();
   }
 }
 ```
 
-# Put it to the test
+# Проверь себя
 
-Let's implement cat genes in our zombie code.
+Введем ген котика в наш зомби-код
 
-1. First, let's change the function definition for `feedAndMultiply` so it takes a 3rd argument: a `string` named `_species`
+1. Сначала давай изменим определение функции на `feedAndMultiply` (питаться и размножаться), чтобы она брала третий аргумент: `string` (строку) под названием `_species` (виды).
 
-2. Next, after we calculate the new zombie's DNA, let's add an `if` statement comparing the `keccak256` hashes of `_species` and the string `"kitty"`
+2. Когда мы вычислили ДНК нового зомби, добавим оператор `if` (или), чтобы он сравнил `keccak256` хэши строк `_species` (виды) и `"kitty"` (котик).
 
-3. Inside the `if` statement, we want to replace the last 2 digits of DNA with `99`. One way to do this is using the logic: `newDna = newDna - newDna % 100 + 99;`.
+3. Внутри оператора `if` (или) мы хотим заменить последние 2 цифры ДНК на `99`. Один из способов сделать это — использовать логику `newDna = newDna - newDna % 100 + 99;`.
 
-  > Explanation: Assume `newDna` is `334455`. Then `newDna % 100` is `55`, so `newDna - newDna % 100` is `334400`. Finally add `99` to get `334499`.
+  > Объяснение: предположим, `newDna` равна `334455`. Тогда `newDna % 100` равна `55`, поэтому `newDna - newDna % 100` это `334400`. В конце добавим `99` чтобы получить `334499`.
 
-4. Lastly, we need to change the function call inside `feedOnKitty`. When it calls `feedAndMultiply`, add the parameter `"kitty"` to the end.
+4. И последнее, нам надо заменить функцию внутри `feedOnKitty`. Когда она вызывает `feedAndMultiply`, добавь в конец параметр `"kitty"`.

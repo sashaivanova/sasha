@@ -1,6 +1,6 @@
 ---
-title: Lesson 2 Complete!
-actions: ['checkAnswer', 'hints']
+title: Урок 2 завершен!
+actions: ['Проверить', 'Подсказать']
 material:
   lessonComplete:
     answer: 1
