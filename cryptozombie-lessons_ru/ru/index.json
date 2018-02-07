@@ -1,196 +1,197 @@
 {
     "base": {
-        "name": "CryptoZombies",
-        "tagLine": "Learn to code games on Ethereum",
-        "lesson": "Lesson {lessonNum}",
-        "chapter": "Chapter {chapterNum}",
-        "syncing": "Synchronizing...",
+        "name": "КриптоЗомби",
+        "tagLine": "Научись создавать игры на Ethereum",
+        "lesson": "Урок {lessonNum}",
+        "chapter": "Глава {chapterNum}",
+        "syncing": "Синхронизируем...",
         "telegram": {
-            "name": "Telegram",
-            "action": "Join Our Telegram",
+            "name": "Телеграм",
+            "action": "Присоединяйся к нам в Телеграме",
             "link": "https://t.me/loomnetwork"
         },
         "twitter": {
-            "name": "Twitter",
+            "name": "Твитер",
             "link": "https://twitter.com/loomnetwork"
         }
     },
     "editor": {
-        "readOnly": "read only"
+        "readOnly": "только чтение"
     },
     "lessonMenu": {
         "pageTitle": "@:base.name | @:base.tagLine",
-        "itemLabel": "Lesson {lessonNum}: {title}",
-        "signIn": "Sign in and load your progress",
-        "progressLoaded": "Your progress is loaded"
+        "itemLabel": "Урок {lessonNum}: {title}",
+        "signIn": "Войди, чтобы загрузить свой прогресс",
+        "progressLoaded": "Прогресс загружен"
     },
     "overview": {
         "pageTitle": "@:base.name {lesson} | @:base.tagLine",
-        "presents": "Presents",
-        "title": "Lesson {lessonNum}: {title}",
-        "signInPrompt": "From here on out you'll need to be signed in so we can sync your progress and zombies. Please sign in using the button below:",
-        "signInButton": "Sign In",
-        "levelUpText": "In this lesson we're going to level up the zombies generated in earlier lessons.",
-        "missingZombieText": "Unfortunately it looks like you don't have a zombie from Lesson {lessonNum}. If you haven't finished that lesson yet, please do so before continuing:",
-        "fixMissingZombieText": "If you've already completed Lesson {lessonNum} and are receiving this message in error, you can just skip to the end and {generateNewZombie}.",
-        "generateNewZombieLink": "generate a new zombie",
-        "areYouReady": "Are you ready to get started?",
-        "resumeLesson": "Resume Lesson {lessonNum}"
+        "presents": "Представляет",
+        "title": "Урок {lessonNum}: {title}",
+        "signInPrompt": "С этого момента оставайся в системе, чтобы мы могли синхронизировать твои успехи и зомби. Войди, нажав на кнопку ниже:",
+        "signInButton": "Войти",
+        "levelUpText": "В этом уроке мы поднимем сгенерированных ранее зомби на новый уровень.",
+        "missingZombieText": "Не похоже, что у тебя остался зомби с Урока {lessonNum}. Закончи этот урок, прежде чем продолжить:",
+        "fixMissingZombieText": "Если Урок {lessonNum} все-таки был тобой закончен и это сообщение возникло по ошибке, просто пропусти его и {generateNewZombie}.",
+        "generateNewZombieLink": "Сгенерируй нового Зомби",
+        "areYouReady": "Начинаем?",
+        "resumeLesson": "Возобновить Урок {lessonNum}"
     },
     "chapter": {
         "pageTitle": "@:base.name | {lesson} {chapter}",
-        "header": "Chapter {chapterNum}: {title}",
-        "saveProgress": "Save Progress",
-        "autosaveEnabled": "Autosave Enabled",
-        "resumeProgress": "Resume Progress",
-        "showHint": "Show Hint",
-        "nextChapter": "Next Chapter",
-        "tryAgain": "Try Again",
-        "checkAnswer": "Check Answer",
-        "showMeTheAnswer": "Show me the answer",
-        "hideAnswer": "Hide Answer"
+        "header": "Глава {chapterNum}: {title}",
+        "saveProgress": "Сохранить прогресс",
+        "autosaveEnabled": "Автосохранение включено",
+        "resumeProgress": "Возобновить прогресс",
+        "showHint": "Показать подсказку",
+        "nextChapter": "Следующая глава",
+        "tryAgain": "Попробуй еще раз",
+        "checkAnswer": "Проверить ответ",
+        "showMeTheAnswer": "Показать ответ",
+        "hideAnswer": "Скрыть ответ"
     },
     "lessonComplete": {
-        "shareLinksAction": "Or you can click the buttons below to share:",
-        "signIn": "Sign in and save your progress",
-        "goToNextLesson": "Proceed to Next Lesson",
+        "shareLinksAction": "Или нажми на любую из кнопок, чтобы поделиться:",
+        "signIn": "Войди, чтобы сохранить прогресс",
+        "goToNextLesson": "К следующему уроку",
         "lesson1": {
             "header": [
-                "Congratulations! You have completed Lesson 1 of CryptoZombies!",
-                "You're officially one step closer to building your own games on Ethereum.",
-                "Show off your first zombie to your friends!",
-                "Here's a permalink to your zombie:"
+                "Поздравляем! Первый урок Криптозомби завершен.",
+                "Ты на шаг ближе к созданию собственной игры на Ethereum.",
+                "Покажи своего первого зомби друзьям!",
+                "Вот ссылка на твоего зомби:"
             ],
-            "footer": "Make sure your progress is saved below before you proceed to Lesson 2.",
-            "zombieDesc": "A Level 1 CryptoZombie",
-            "shareLinkText": "I just completed #CryptoZombies Lesson 1 and learned the basics of coding a game on #Ethereum. Take a look at the first zombie in my army!"
+            "footer": "Убедись, что прогресс сохранен, прежде чем приступишь к Уроку 2.",
+            "zombieDesc": "КриптоЗомби Уровень 1",
+            "shareLinkText": "Завершен Урок 1 #КриптоЗомби! Теперь я знаю базовые принципы разработки игры на #Ethereum. Вот первый солдат в моей зомби-армии!"
         },
         "lesson2": {
             "header": [
-                "Congratulations! You have completed {lesson2} of CryptoZombies!",
-                "Achievements Unlocked:",
-                "{zombieName} has been upgraded to Level 2!",
-                "You've added NoName, a CatZombie to your army! (Don't worry, you'll learn how to change his/her name in Lesson 3)",
-                "Show off your CryptoKitty-slayer to your friends!",
-                "Share this URL so your friends can slay CryptoKitties with your zombie:"
+                "Поздравляем! Завершен {lesson2} КриптоЗомби!",
+                "Достижение разблокировано:",
+                "{zombieName} получил повышение до уровня 2!",
+                "Безымянный зомбокотик присоединился к твоей армии! (Не волнуйся, в Уроке 3 ты узнаешь, как переименовать его или ее)",
+                "Покажи друзьям своего криптокотика-убийцу!",
+                "Поделись этой ссылкой, чтобы твои друзья тоже могли насладиться убийством криптокотиков с помощью зомби:"
             ],
             "footer": [
-                "Enjoying CryptoZombies? Let us know!",
-                "Join the conversation on {telegramLink}, or follow us on {twitterLink}",
-                "When you're ready, click the button below to access Lesson 3:"
+                "Понравились КриптоЗомби? Напиши нам!",
+                "Присоединись к чату в {telegramLink}, или подпишись в {twitterLink}",
+                "Готово? Жми на кнопку и переходи к Уроку 3:"
             ],
-            "zombieDesc": "A Level 2 CryptoZombie",
-            "shareLinkText": "I just completed #CryptoZombies Lesson 2! My zombie ate some #CryptoKitties, and I learned more about #Ethereum development. Watch my zombie battle more CryptoKitties:"
+            "zombieDesc": "КриптоЗомби второго уровня",
+            "shareLinkText": "Завершен Урок 2 #КриптоЗомби! Мой зомби съел несколько  #Криптокотиков, а я теперь знаю еще больше о разработке на #Ethereum. Следи, как мой Зомби будет уничтожать Криптокотиков:"
         },
         "lesson3": {
-            "achievementsUnlocked": "Achievements Unlocked:",
-            "zombieUpgraded": "{zombieName} has been upgraded to Level {levelNum}!",
+            "achievementsUnlocked": "Достижение разблокировано:",
+            "zombieUpgraded": "{zombieName} получил повышение до уровня {levelNum}!",
             "header": [
-                "Congratulations! You have completed {lesson3} of CryptoZombies!",
-                "Show off your zombie army to your friends!",
-                "Share this URL so your friends can check out your army:"
+                "Поздравляем! Завершен {lesson3} КриптоЗомби!",
+                "Покажи друзьям свою армию зомби!",
+                "Поделись этой ссылкой, чтобы друзья оценили зомбоармию:"
             ],
             "footer": [
-                "Lesson 4 coming in 1-2 weeks",
-                "You'll get an email from us as soon as it's ready.",
-                "In the meantime, join us on {telegramLink}, or follow our {twitterLink} to join the conversation!"
+                "Четвертый урок будет через 1-2 недели",
+                "Как только он будет готов, мы сразу тебе напишем.",
+                "А пока присоединяйся к нашему чату в Телеграме {telegramLink}, или подпишись в {twitterLink}, чтобы мы могли побеседовать!"
             ],
-            "zombieDesc": "A Level 3 CryptoZombie",
-            "shareLinkText": "I just completed #CryptoZombies Lesson 3! Check out my zombie army:"
+            "zombieDesc": "КриптоЗомби третьего уровня",
+            "shareLinkText": "Завершен Урок 3 #КриптоЗомби! Оцени мою зомбоармию:"
         }
     },
     "zombieBattle": {
-        "yourTurn": "Your Turn",
-        "zombieDna": "{name}'s DNA",
-        "newZombieGenerated": "New {species} Generated!",
-        "catZombie": "Cat-Zombie",
-        "mutantZombie": "Mutant-Zombie",
-        "newSpeciesDna": "New {species}'s DNA",
-        "cryptoKitty": "CryptoKitty",
-        "human": "Human",
-        "tryAnotherCombo": "Try Another Combination"
+        "yourTurn": "Твоя очередь",
+        "zombieDna": "{name} ДНК",
+        "newZombieGenerated": "Сгенерирован новый {species}!",
+        "catZombie": "Котозомби",
+        "mutantZombie": "Зомби-мутант",
+        "newSpeciesDna": "ДНК нового {species}",
+        "cryptoKitty": "Криптокотик",
+        "human": "Человек",
+        "tryAnotherCombo": "Попробуй другую комбинацию"
     },
     "zombieChar": {
-        "defaultZombieDesc": "A Level 1 CryptoZombie"
+        "defaultZombieDesc": "КриптоЗомби первого уровня"
     },
     "zombieDeck": {
-        "zombieDesc": "A Level {levelNum} CryptoZombie",
-        "nameInputPlaceholder": "Give {name} a new name and press 'Save'",
-        "save": "Save",
-        "yourDeck": "Your Deck"
+        "zombieDesc": "КриптоЗомби {levelNum} уровня",
+        "nameInputPlaceholder": "Дай {name} новое имя и нажми 'Сохранить'",
+        "save": "Сохранить",
+        "yourDeck": "Твоя коллекция"
     },
     "zombieResult": {
-        "headGeneLabel": "Head Gene:",
-        "eyeGeneLabel": "Eye Gene:",
-        "shirtGeneLabel": "Shirt Gene:",
-        "skinColorGeneLabel": "Skin Color Gene:",
-        "eyeColorGeneLabel": "Eye Color Gene:",
-        "clothesColorGeneLabel": "Clothes Color Gene:",
-        "nameInputPlaceholder": "Enter a name here",
-        "defaultZombieDesc": "A Level 1 CryptoZombie"
+        "headGeneLabel": "Ген головы:",
+        "eyeGeneLabel": "Ген разреза глаз:",
+        "shirtGeneLabel": "Ген мундира:",
+        "skinColorGeneLabel": "Ген цвета кожи:",
+        "eyeColorGeneLabel": "Ген цвета глаз:",
+        "clothesColorGeneLabel": "Ген цвета обмундирования:",
+        "nameInputPlaceholder": "Напиши имя",
+        "defaultZombieDesc": "КриптоЗомби первого уровня"
     },
     "sharePage": {
-        "pageTitle": "Check out my CryptoZombie {zombieName}!",
-        "presents": "Presents",
-        "zombieDesc": "{name}, a Level {levelNum} CryptoZombie",
+        "pageTitle": "Оцени моего Зомби {zombieName}!",
+        "presents": "Представляет",
+        "zombieDesc": "{name}, КриптоЗомби {levelNum} уровня",
         "lesson1": {
-            "zombieDesc": "A Level 1 CryptoZombie",
-            "randomZombieGenerator": "random zombie generator",
+            "zombieDesc": "КриптоЗомби первого уровня",
+            "randomZombieGenerator": "Случайный генератор зомби",
             "achievementPreamble": [
-                "Your friend has learned the basics of Ethereum game development, and created {zombieName}, a Level 1 CryptoZombie as proof!",
-                "In order to complete Lesson 1 of CryptoZombies, your friend built a {randomZombieGenerator} and learned about:"
+                "Среди твоих друзей есть настоящий Solidity-зомби! Смотри, какой {zombieName} получился. Пруф: КриптоЗомби 1 уровня!",
+                "Чтобы завершить первый урок, надо было написать {randomZombieGenerator} и усвоить основы Solidity:"
             ],
             "achievements": [
-                "How to write Ethereum smart contracts",
-                "Programming in Solidity, Ethereum's smart contract programming language",
-                "Building games on Ethereum"
+                "Как писать смарт-контракты на Ethereum",
+                "Программирование на Solidity, языке смарт-контрактов блокчейна Ethereum",
+                "Создаем игры на Ethereum"
             ],
-            "tryItOut": "Give the random zombie generator a try.",
-            "below": "below",
-            "above": "above",
-            "zombieGeneratorText": "{tryItOut} Enter a name in the box {below}{above} to generate a new zombie!",
-            "nameInputPlaceholder": "Enter a name to generate a zombie",
+            "tryItOut": "Испытай случайный зомбогенератор.",
+            "below": "ниже",
+            "above": "выше",
+            "zombieGeneratorText": "{tryItOut} Введи имя в поле {below}{above}, чтобы сгенерировать нового зомби!",
+            "nameInputPlaceholder": "Введи имя, чтобы сгенерировать зомби",
             "callToAction": [
-                "Want to build your own CryptoZombie and join the ranks?",
-                "Learn to build your own games on Ethereum for FREE with CryptoZombies! Get started now:"
+                "Хочешь создать своих КриптоЗомби и пополнить ряды зомбоармии?",
+                "Научись создавать собственные игры на Ethereum вместе с КриптоЗомби! Это бесплатно, начни прямо сейчас:"
             ]
         },
         "lesson2": {
-            "zombieCardBattle": "Zombie Card Battle",
-            "love": "love",
+            "zombieCardBattle": "Битва зомби-армии",
+            "love": "любовь",
             "achievementPreamble": [
-                "Your friend has completed CryptoZombies Lesson 2, and upgraded {zombieName} to a CryptoKitty slayer!",
-                "A CryptoKitty Slayer?!",
-                "It turns out CryptoZombies {love} to feed on CryptoKitties.",
-                "When a CryptoZombie feeds on a CryptoKitty, their DNA mixes together and the CryptoKitty becomes reanimated as a CryptoZombie.",
-                "Go ahead, choose a CryptoKitty to attack, and see what kind of CatZombie you get!",
-                "Solidity Concepts Mastered",
-                "In order to complete Lesson 2 of CryptoZombies Code School, your friend built a {zombieCardBattle} and learned about:"
+                "Среди твои друзей есть настоящий Solidity-зомби. В Уроке 2 произошел апгрейд {zombieName} до убийцы КриптоКотиков!",
+                "Убийцы Криптокотиков?!",
+                "Оказывается {love} КриптоЗомби питается Криптокотиками.",
+                "Когда КриптоЗомби питается Криптокотиком, их ДНК смешиваются, и Криптокотик реанимируется в КриптоЗомби",
+                "Вперед, выбирай и нападай на КриптоКотика. Увидишь, какой получится Котозомби!",
+                "Концепция Solidity усвоена",
+                "Среди твоих друзей есть настоящий Solidity-зомби!"
+                "Чтобы завершить второй урок в Школе программирования им. КриптоЗомби, надо было написать {zombieCardBattle}:"
             ],
             "achievements": [
-                "The basics of making a multi-player game",
-                "Interacting with other contracts on the Ethereum network",
-                "Organizing larger Solidity projects into multiple contracts"
+                "Основы создания многопользовательского режима",
+                "Взаимодействие с другими контрактами в сети Ethereum",
+                "Организация крупных проектов Solidity в несколько контрактов"
             ],
             "callToAction": [
-                "Want to build your own CryptoZombies and join the ranks?",
-                "Learn to build your own games on Ethereum for FREE with CryptoZombies! Get started now:"
+                "Хочешь создать своих КриптоЗомби и пополнить ряды зомбоармии?",
+                "Научись создавать собственные игры на Ethereum вместе с КриптоЗомби! Это бесплатно, начни прямо сейчас:"
             ]
         },
         "lesson3": {
             "achievementPreamble": [
-                "Your friend has completed CryptoZombies Lesson 3, and upgraded their zombie army!",
-                "In order to complete Lesson 3 of CryptoZombies, your friend learned about:"
+                "Среди твоих друзей есть настоящий Solidity-зомби!"
+                "Чтобы завершить третий урок КриптоЗомби, понадобилось апгрейдить армию и научиться:"
             ],
             "achievements": [
-                "How to build updatable smart contracts",
-                "Securing contracts with contract ownership",
-                "Gas and gas optimization on Ethereum",
-                "Function modifiers and security checks"
+                "Как создать обновляемый смарт-контракт",
+                "Безопасность контракта с помощью присваивания собственности",
+                "Газ и оптимизация газа в Ethereum",
+                "Модификаторы функция и проверки безопасности"
             ],
             "callToAction": [
-                "Want to build your own CryptoZombie army and join the ranks?",
-                "Learn to build your own games on Ethereum for FREE with CryptoZombies! Get started now:"
+                "Хочешь создать своих КриптоЗомби и пополнить ряды зомбоармии?",
+                "Научись создавать собственные игры на Ethereum вместе с КриптоЗомби! Это бесплатно, начни прямо сейчас:"
             ]
         }
     }
