@@ -1,6 +1,6 @@
 ---
-title: Zombie Modifiers
-actions: ['checkAnswer', 'hints']
+title: Модификаторы зомби
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -18,7 +18,7 @@ material:
             _;
           }
 
-          // Start here
+          // Начало здесь
 
         }
       "zombiefeeding.sol": |
@@ -177,37 +177,37 @@ material:
       }
 ---
 
-Now let's use our `aboveLevel` modifier to create some functions.
+Теперь давай создадим другие функции с модификатором `aboveLevel`.
 
-Our game will have some incentives for people to level up their zombies:
+Мы придумали стимулы, чтобы игроки стремились повышать уровень своих зомби:
 
-- For zombies level 2 and higher, users will be able to change their name.
-- For zombies level 20 and higher, users will be able to give them custom DNA.
+- От уровня 2 и выше пользователи могут менять имя зомби.
+- От уровня 20 и выше пользователи могут присваивать зомби кастомную ДНК.
 
-We'll implement these functions below. Here's the example code from the previous lesson for reference:
+Ниже выполним эти функции. За образец возьмем код из предыдущего урока:
 
 ```
-// A mapping to store a user's age:
+// Карта соответствий хранит возраст пользователя:
 mapping (uint => uint) public age;
 
-// Require that this user be older than a certain age:
+// Требует, чтобы пользователь был старше определенного возраста:
 modifier olderThan(uint _age, uint _userId) {
   require (age[_userId] >= _age);
   _;
 }
 
-// Must be older than 16 to drive a car (in the US, at least)
+// Должен быть старше 16 лет, чтобы водить авто (по крайней мере в Штатах)
 function driveCar(uint _userId) public olderThan(16, _userId) {
-  // Some function logic
+  // Логика функции
 }
 ```
 
-## Put it to the test
+## Проверь себя
 
-1. Create a function called `changeName`. It will take 2 arguments: `_zombieId` (a `uint`), and `_newName` (a `string`), and make it `external`. It should have the `aboveLevel` modifier, and should pass in `2` for the `_level` parameter. (Don't forget to also pass the `_zombieId`).
+1. Создай функцию под названием `changeName`. Она берет 2 аргумента: `_zombieId` (`uint`) и `_newName` (`string`). Сделай ее `external`. У функции должен быть модификатор `aboveLevel` и еще она должна вписываться в значение `2` для параметра `_level`. (Не забудь  также о `_zombieId`).
 
-2. In this function, first we need to verify that `msg.sender` is equal to `zombieToOwner[_zombieId]`. Use a `require` statement.
+2. Первое, что нужно проверить в этой функции — что `msg.sender` равен `zombieToOwner [_zombieId]`. Воспользуйся оператором `require`.
 
-3. Then the function should set `zombies[_zombieId].name` equal to `_newName`.
+3. Затем функция устанавливает `zombies [_zombieId].name` равным `_newName`.
 
-3. Create another function named `changeDna` below `changeName`. Its definition and contents will be almost identical to `changeName`, except its second argument will be `_newDna` (a `uint`), and it should pass in `20` for the `_level` parameter on `aboveLevel`. And of course, it should set the zombie's `dna` to `_newDna` instead of setting the zombie's name.
+4. Ниже `changeName` создай еще одну функцию под названием `changeDna`. Ее значение и содержание будут почти идентичны `changeName`, за исключением второго аргумента — он будет `_newDna` (`uint`), и он должен вписываться в значение `20` параметра `_level` в `aboveLevel`. Разумеется, функция должна задавать `dna` зомби как `_newDna` вместо `_newName`.

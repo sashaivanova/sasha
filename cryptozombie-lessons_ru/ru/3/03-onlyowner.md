@@ -183,24 +183,22 @@ material:
       }
 ---
 
-Теперь наш базовый контракт `ZombieFactory` наследует от `Ownable` и мы можем использовать модификатор `onlyOwner` в `ZombieFeeding`. Now that our base contract `ZombieFactory` inherits from `Ownable`, we can use the `onlyOwner` function modifier in `ZombieFeeding` as well.
+Теперь базовый контракт `ZombieFactory` наследует `Ownable` и мы можем использовать модификатор `onlyOwner` в `ZombieFeeding`.
 
-Так работает наследование в контрактах. Запомни:
+Запомни, как работает наследование в контрактах:
 
 ```
 ZombieFeeding is ZombieFactory
 ZombieFactory is Ownable
 ```
 
-Таким образом, `ZombieFeeding` также и `Ownable`, он может получить доступ к функциям / событиям / модификаторам из контракта `Ownable`. Это относится к любым контрактам, которые будут наследовать `ZombieFeeding` в будущем.
+Таким образом, `ZombieFeeding` также и `Ownable`, он может получить доступ к функциям, событиям и модификаторам контракта `Ownable`. Это относится к любым контрактам, которые будут наследовать `ZombieFeeding` в будущем.
 
 ## Модификаторы функций
 
-Модификатор функции выглядит точно так же, как функция, но использует ключевое слово `modifier` вместо `function`. Его нельзя вызвать напрямую, как функцию - вместо этого добавить модификатор в конце определения функции и изменить поведение функции.
+Модификатор функции выглядит точно так же, как сама функция, но использует ключевое слово `modifier` вместо `function`. Его нельзя вызвать напрямую, как функцию - вместо этого мы можем добавить модификатор в конце определения функции и изменить ее поведение.
 
-A function modifier looks just like a function, but uses the keyword `modifier` instead of the keyword `function`. And it can't be called directly like a function can — instead we can attach the modifier's name at the end of a function definition to change that functions behavior.
-
-Посмотрим внимательныее на примере `onlyOwner`:
+Рассмотрим на примере `onlyOwner`:
 
 ```
 /**
@@ -212,38 +210,31 @@ modifier onlyOwner() {
 }
 ```
 
-We would use this modifier as follows:
+Используем модификатор:
 
 ```
 contract MyContract is Ownable {
   event LaughManiacally(string laughter);
 
-  // Обрати внаминае на использование `onlyOwner` ниже:
+  // Обрати внимание на использование `onlyOwner` ниже:
   function likeABoss() external onlyOwner {
     LaughManiacally("Muahahahaha");
   }
 }
 ```
 
-Видишь модификатор `onlyOwner` в функции `likeABoss`? Когда ты вызываешь `likeABoss`, код внутри `onlyOwner` выполняется **в первую очередь**. Затем, когда он доходит до оператора `_;` в `onlyOwner`, он возвращается и выполняет код внутри `likeABoss`.
+Видишь модификатор `onlyOwner` в функции `likeABoss`? Когда ты вызываешь `likeABoss`, **в первую очередь** выполняется код внутри `onlyOwner`. Затем, когда он доходит до оператора `_;` в `onlyOwner`, он возвращается и выполняет код внутри `likeABoss`.
 
-Notice the `onlyOwner` modifier on the `likeABoss` function. When you call `likeABoss`, the code inside `onlyOwner` executes **first**. Then when it hits the `_;` statement in `onlyOwner`, it goes back and executes the code inside `likeABoss`.
+Хотя есть и другие способы использования модификаторов, одним из наиболее распространенных вариантов является добавление быстрой проверки `require` перед выполнением функции.
 
-Хотя есть и другие способы использования модификаторов, одним из наиболее распространенных вариантов использования является добавление быстрой проверки `require` перед выполнением функции.
-So while there are other ways you can use modifiers, one of the most common use-cases is to add quick `require` check before a function executes.
+Добавление модификатора `onlyOwner` в функцию делает так, что только **единственный владелец**, например ты, может вызвать эту функцию.
 
-В случае `onlyOwner`, добавление этого модификатора в функцию делает так, что только **единственный владелец**, например ты, может вызвать эту функцию.
-In the case of `onlyOwner`, adding this modifier to a function makes it so **only** the **owner** of the contract (you, if you deployed it) can call that function.
+> Примечание: предоставление владельцу особой власти над подобным контрактом часто необходимо. Но властью можно злоупотреблять: например, владелец может оставить бэкдор, который переведет всех зомби на его адрес!
 
-> Обрати внимание: предоставление владельцу особой власти над подобным контрактом часто необходимо. Но этим могут злоупотреблять. Например, владелец может добавить бэкдор, который переведет всех зомби на его адрес!
->Note: Giving the owner special powers over the contract like this is often necessary, but it could also be used maliciously. For example, the owner could add a backdoor function that would allow him to transfer anyone's zombies to himself!
-
-> Важно помнить, что DApp на Ethereum не означает автоматически децентрализацию. Читай исходники полностью, чтобы убедиться, что он чист от средств передачи контроля другому владельцу. Для разработчика это нахождение баланса междуконтролем над DApp для исправления ошибок, и созданием платформы без владельца, которой ваши пользователи могут доверять, чтобы защитить свои данные.
->
-So it's important to remember that just because a DApp is on Ethereum does not automatically mean it's decentralized — you have to actually read the full source code to make sure it's free of special controls by the owner that you need to potentially worry about. There's a careful balance as a developer between maintaining control over a DApp such that you can fix potential bugs, and building an owner-less platform that your users can trust to secure their data.
+> Важно помнить, что DApp на Ethereum не означает децентрализацию по умолчанию. Читай исходники, чтобы убедиться, что Когда не содержит средств передачи контроля другому владельцу. Разработчику необходимо найти баланс между контролем над DApp для исправления багов, и созданием децентрализованной платформы, которой пользователи могут доверять.
 
 ## Проверь себя
 
-Теперь мы можем запретить доступ к `setKittyContractAddress` чтобы никто не могу его изменить в будущем.
+Теперь мы можем запретить доступ к `setKittyContractAddress`, чтобы никто не могу его изменить в будущем.
 
 1. Добавь модификатор `onlyOwner` к `setKittyContractAddress`.

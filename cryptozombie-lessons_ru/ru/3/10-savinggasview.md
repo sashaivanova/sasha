@@ -1,6 +1,6 @@
 ---
-title: Saving Gas With 'View' Functions
-actions: ['checkAnswer', 'hints']
+title: Экономим газ с помощью функции 'View'
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -28,7 +28,7 @@ material:
             zombies[_zombieId].dna = _newDna;
           }
 
-          // Create your function here
+          // Здесь создай функцию 
 
         }
 
@@ -192,32 +192,30 @@ material:
       }
 ---
 
-Awesome! Now we have some special abilities for higher-level zombies, to give our owners an incentive to level them up. We can add more of these later if we want to.
+Круто! Теперь у нас есть специальные возможности для высокоуровневых зомби, так владельцам будет интересно поднимать уровень. Позже при желании можно добавить больше специальных возможностей. 
 
-Let's add one more function: our DApp needs a method to view a user's entire zombie army — let's call it `getZombiesByOwner`.
+Добавим еще одну функцию: нужен способ, чтобы в DApp увидеть всю свою армию зомби. Назовем ее `getZombiesByOwner`.
 
-This function will only need to read data from the blockchain, so we can make it a `view` function. Which brings us to an important topic when talking about gas optimization:
+Эта функция только для чтения данных в блокчейне, поэтому зададим ей функцию просмотра `view`. Мы подошли к важной теме оптимизации расхода газа:
 
-## View functions don't cost gas
+## Функции просмотра не тратят газ
 
-`view` functions don't cost any gas when they're called externally by a user.
+Функции просмотра `view` не расходуют газ, когда их вызывает внешний пользователь.
 
-This is because `view` functions don't actually change anything on the blockchain – they only read the data. So marking a function with `view` tells `web3.js` that it only needs to query your local Ethereum node to run the function, and it doesn't actually have to create a transaction on the blockchain (which would need to be run on every single node, and cost gas).
+Так происходит, потому что функция `view` только считывает данные и по факту ничего не меняет в блокчейне. Если отметить функцию `web3.js` с помощью `view`, то для запуска она будет обращаться к локальной ноде Ethereum, а не создавать транзакцию в блокчейне (которая запускается в каждой ноде и расходует газ).
 
-We'll cover setting up web3.js with your own node later. But for now the big takeaway is that you can optimize your DApp's gas usage for your users by using read-only `external view` functions wherever possible.
+Позже мы рассмотрим подробнее настройку web3.js в ноде. На данный момент выгода от использования функции `view` где только возможно — оптимизации расхода газа в DApp пользователей.
 
-> Note: If a `view` function is called internally from another function in the same contract that is **not** a `view` function, it will still cost gas. This is because the other function creates a transaction on Ethereum, and will still need to be verified from every node. So `view` functions are only free when they're called externally.
+> Примечание. Если функция `view` вызывается внутренне из другой функции в том же самом контракте, который **не является** функцией `view`, то ты потратишь газ. Это связано с тем, что другая функция создает транзакцию на Ethereum и каждая нода будет верифицировать ее. Функции `view` доступны только при внешнем вызове.
 
-## Put it to the test
+## Проверь себя
 
-We're going to implement a function that will return a user's entire zombie army. We can later call this function from `web3.js` if we want to display a user profile page with their entire army.
+Реализуем функцию, которая будет возвращать всю армию зомби пользователя. Потом мы сможем вызвать эту функцию из `web3.js`, если захотим отобразить страницу профиля пользователя со всей армией.
 
-This function's logic is a bit complicated so it will take a few chapters to implement.
+Логика этой функции довольно сложная, ее реализацию будем смотреть в нескольких главах.
 
-1. Create a new function named `getZombiesByOwner`. It will take one argument, an `address` named `_owner`.
+1. Создай новую функцию с именем `getZombiesByOwner`. Она берет один аргумент: `address` под названием `_owner`.
 
-2. Let's make it an `external view` function, so we can call it from `web3.js` without needing any gas.
+2. Давай сделаем эту функцию `external view`, чтобы вызывать ее из `web3.js` без необходимости оплаты газа.
 
-3. The function should return a `uint[]` (an array of `uint`).
-
-Leave the function body empty for now, we'll fill it in in the next chapter.
+3. Функция должна возвращать `uint[]` (массив `uint`).

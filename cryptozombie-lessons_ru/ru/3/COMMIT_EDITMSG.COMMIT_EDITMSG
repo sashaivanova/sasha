@@ -93,7 +93,7 @@ index af938f8..f8c842d 100644
  ---
  
 -Поздравляем! Вы завершили начальный урок и создали первого зомби-солдата для своей армии.
-+Поздравляем! Первый раздел завершен. У тебе есть первый зомби-солдат для будущей армии!
++Поздравляем! Первый раздел завершен. У тебя есть первый зомби-солдат для будущей армии!
  
  # Следующий шаг
  
@@ -364,7 +364,7 @@ index 3b14701..e2ae7e1 100644
  ```
  
 -This would be a simple contract where anyone could store their lucky number, and it will be associated with their Ethereum address. Then anyone else could look up that person's lucky number using their address.
-+Это простой контракт, где каждый может хранить свой счастливый номер, связаный с личным адресом Ethereum. Тогда любой может найти счастливый номер человека по адресу.
++Это простой контракт, где каждый может хранить свой счастливый номер, связанный с личным адресом Ethereum. Тогда любой может найти счастливый номер человека по адресу.
  
 -Now let's say we had an external contract that wanted to read the data in this contract using the `getNum` function. 
 +Теперь допустим, что у нас есть другой внешний контракт, который хочет считать данные в этом контракте, используя функцию `getNum`.

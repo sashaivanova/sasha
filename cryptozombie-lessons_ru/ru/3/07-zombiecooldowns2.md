@@ -1,6 +1,6 @@
 ---
-title: Public Functions & Security
-actions: ['checkAnswer', 'hints']
+title: Открытые функции и безопасность
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -42,18 +42,18 @@ material:
               return (_zombie.readyTime <= now);
           }
 
-          // 1. Make this function internal
+          // 1. Эту функцию сделай внутренней
           function feedAndMultiply(uint _zombieId, uint _targetDna, string _species) public {
             require(msg.sender == zombieToOwner[_zombieId]);
             Zombie storage myZombie = zombies[_zombieId];
-            // 2. Add a check for `_isReady` here
+            // 2. Здесь добавь проверку `_isReady` 
             _targetDna = _targetDna % dnaModulus;
             uint newDna = (myZombie.dna + _targetDna) / 2;
             if (keccak256(_species) == keccak256("kitty")) {
               newDna = newDna - newDna % 100 + 99;
             }
             _createZombie("NoName", newDna);
-            // 3. Call `triggerCooldown`
+            // 3. Вызови `triggerCooldown`
           }
 
           function feedOnKitty(uint _zombieId, uint _kittyId) public {
@@ -206,18 +206,18 @@ material:
       }
 ---
 
-Now let's modify `feedAndMultiply` to take our cooldown timer into account.
+Модифицируем `feedAndMultiply`, чтобы она учитывала таймер перезарядки.
 
-Looking back at this function, you can see we made it `public` in the previous lesson. An important security practice is to examine all your `public` and `external` functions, and try to think of ways users might abuse them. Remember — unless these functions have a modifier like `onlyOwner`, any user can call them and pass them any data they want to.
+Если помнишь, в прошлом уроке мы сделали эту функцию открытой. Для безопасности очень важно проверить все `public` и `external` функции и представить, как пользователи могли бы ими злоупотребить. Не забудь, чтоб если у функции нет модификатора вроде `onlyOwner`, любой пользователь может вызывать ее и задавать любые данные.
 
-Re-examining this particular function, the user could call the function directly and pass in any `_targetDna` or `_species` they want to. This doesn't seem very game-like — we want them to follow our rules!
+Если взглянуть еще раз на эту конкретную функцию, видно, что пользователь может вызвать ее напрямую и задать любые `_targetDna` или `_species`. А мы хотим, чтобы пользователи играли по нашим правилам!
 
-On closer inspection, this function only needs to be called by `feedOnKitty()`, so the easiest way to prevent these exploits is to make it `internal`.
+Внимательно изучив код, мы видим, что эта функция нужна только для `feedOnKitty()`, поэтому самый простой способ обезопасить ее — сделать внутренней.
 
-## Put it to the test 
+## Проверь себя
 
-1. Currently `feedAndMultiply` is a `public` function. Let's make it `internal` so that the contract is more secure. We don't want users to be able to call this function with any DNA they want.
+1. На данный момент `feedAndMultiply` является `public` функцией. Для безопасности контракта сделаем ее `internal`. Мы не хотим, чтобы пользователь мог вызвать эту функцию для любой ДНК.
 
-2. Let's make `feedAndMultiply` take our `cooldownTime` into account. First, after we look up `myZombie`, let's add a `require` statement that checks `_isReady()` and passes `myZombie` to it. This way the user can only execute this function if a zombie's cooldown time is over.
+2. Сделаем так, чтобы `feedAndMultiply` учитывала `cooldownTime`. После поиска `myZombie` добавим оператор `require`, который проверяет `_isReady ()` и отдает ему `myZombie`. Таким образом пользователь сможет выполнить эту функцию только в том случае, если время перезарядки зомби истекло.
 
-3. At the end of the function let's call `_triggerCooldown(myZombie)` so that feeding triggers the zombie's cooldown time.
+3. В конце функции вызовем `_triggerCooldown(myZombie)`, чтобы функция питания запускала время перезарядки зомби.

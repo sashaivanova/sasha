@@ -1,6 +1,6 @@
 ---
-title: Ownable Contracts
-actions: ['checkAnswer', 'hints']
+title: Собственные контракты
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -9,9 +9,9 @@ material:
       "zombiefactory.sol": |
         pragma solidity ^0.4.19;
 
-        // 1. Import here
+        // 1. Здесь импорт
 
-        // 2. Inherit here:
+        // 2. Здесь наследование:
         contract ZombieFactory {
 
             event NewZombie(uint zombieId, string name, uint dna);
@@ -179,19 +179,19 @@ material:
       }
 ---
 
-Did you spot the security hole in the previous chapter?
+Насчет дыры в безопасности в предыдущей главе.
 
-`setKittyContractAddress` is `external`, so anyone can call it! That means anyone who called the function could change the address of the CryptoKitties contract, and break our app for all its users.
+Функция `setKittyContractAddress` — внешняя `external`, ее может  вызвать кто угодно! Это означает, что любой вызвавший функцию может заменить адрес контракта Криптокотиков и испортить игру всем остальным.
 
-We do want the ability to update this address in our contract, but we don't want everyone to be able to update it.
+Нам нужна возможность обновления адреса в контракте, но также надо закрыть возможность обновления всем остальным.
 
-To handle cases like this, one common practice that has emerged is to make contracts `Ownable` — meaning they have an owner (you) who has special privileges.
+Для подобных случаев есть одна распространенная практика: делать контракты `Ownable` — собственными, то есть принадлежащими тебе и дающими особые привилегии.
 
-## OpenZeppelin's `Ownable` contract
+## Собственный контракт OpenZeppelin
 
-Below is the `Ownable` contract taken from the **_OpenZeppelin_** Solidity library. OpenZeppelin is a library of secure and community-vetted smart contracts that you can use in your own DApps. After this lesson, while you anxiously await the release of Lesson 4, we highly recommend you check out their site to further your learning!
+Ниже пример `Ownable` контракта из библиотеки Solidity **_OpenZeppelin_**. OpenZeppelin - это библиотека безопасных смарт-контрактов сообщества, которыми можно пользоваться для личных DApps. Пока ты будешь ждать Урока 4, посмотри библиотеки на этом сайте. Поможет в дальнейшем.
 
-Give the contract below a read-through. You're going to see a few things we haven't learned yet, but don't worry, we'll talk about them afterward.
+Прочитай контракт ниже. Ты увидишь несколько неизученных моментов, не волнуйся, сейчас мы поговорим о них. 
 
 ```
 /**
@@ -231,28 +231,28 @@ contract Ownable {
 }
 ```
 
-A few new things here we haven't seen before:
+Вот что мы не видели раньше:
 
-- Constructors: `function Ownable()` is a **_constructor_**, which is an optional special function that has the same name as the contract. It will get executed only one time, when the contract is first created.
-- Function Modifiers: `modifier onlyOwner()`. Modifiers are kind of half-functions that are used to modify other functions, usually to check some requirements prior to execution. In this case, `onlyOwner` can be used to limit access so **only** the **owner** of the contract can run this function. We'll talk more about function modifiers in the next chapter, and what that weird `_;` does.
-- `indexed` keyword: don't worry about this one, we don't need it yet.
+- Конструкторы: `function Ownable()` это **_конструктор_**, особая опциональная функция с таким же именем, как контракт. Выполняется только один раз в момент создания контракта.
+- Модификаторы функции: `modifier onlyOwner()`. Модификаторы — полуфункции, которые используются для изменения других функций, обычно для проверки некоторых требований до их выполнения. В этом случае `onlyOwner` можно использовать для ограничения доступа, чтобы **только владелец** контракта мог запустить эту функцию. В следующей главе мы подробно поговорим о модификаторах функций, а также о странном `_;` и его назначении.
+- Ключевое слово `indexed`: пока не нужно, об этом потом. 
 
-So the `Ownable` contract basically does the following:
+В целом `Ownable` контракт делает следующее:
 
-1. When a contract is created, its constructor sets the `owner` to `msg.sender` (the person who deployed it)
+1. Когда контракт создается, конструктор присваивает `msg.sender` (развернувшему контракт) атрибут `owner`.
 
-2. It adds an `onlyOwner` modifier, which can restrict access to certain functions to only the `owner`
+2. Он добавляет модификатор `onlyOwner`, который может ограничить доступ к определенным функциям, предоставив его только владельцу `owner`.   
 
-3. It allows you to transfer the contract to a new `owner`
+3. Он позволяет передать контракт новому `owner`.
 
-`onlyOwner` is such a common requirement for contracts that most Solidity DApps start with a copy/paste of this `Ownable` contract, and then their first contract inherits from it.
+`onlyOwner` настолько распространенное требование для контрактов, что большинство DApps Solidity начинаются с копирования/вставки `Ownable` контракта, а следующий контракт наследует ему.   
 
-Since we want to limit `setKittyContractAddress` to `onlyOwner`, we're going to do the same for our contract.
+Поскольку мы хотим ограничить `setKittyContractAddress` только для `onlyOwner`, сделаем то же самое и для нашего контракта.
 
-## Put it to the test
+## Проверь себя
 
-We've gone ahead and copied the code of the `Ownable` contract into a new file, `ownable.sol`. Let's go ahead and make `ZombieFactory` inherit from it.
+Мы скопировали код контракта `Ownable` в новый файл `ownable.sol`. Продолжи, сделав так, чтобы `ZombieFactory` наследовал ему. 
 
-1. Modify our code to `import` the contents of `ownable.sol`. If you don't remember how to do this take a look at `zombiefeeding.sol`.
+1. Модифицируй код таким образом, чтобы импортировать (`import`) контент в `ownable.sol`. Если не помнишь как, взгляни на `zombiefeeding.sol`.
 
-2. Modify the `ZombieFactory` contract to inherit from `Ownable`. Again, you can take a look at `zombiefeeding.sol` if you don't remember how this is done.
+2. Модифицируй контракт `ZombieFactory`, чтобы он наследовал `Ownable`. Смотри `zombiefeeding.sol`, если не помнишь, как это делается.

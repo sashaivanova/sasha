@@ -1,6 +1,6 @@
 ---
-title: For Loops
-actions: ['checkAnswer', 'hints']
+title: Циклы
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -30,7 +30,7 @@ material:
 
           function getZombiesByOwner(address _owner) external view returns(uint[]) {
             uint[] memory result = new uint[](ownerZombieCount[_owner]);
-            // Start here
+            // Начало здесь
             return result;
           }
 
@@ -204,17 +204,15 @@ material:
       }
 ---
 
-In the previous chapter, we mentioned that sometimes you'll want to use a `for` loop to build the contents of an array in a function rather than simply saving that array to storage. 
+В предыдущей главе мы упоминали, что для создания содержимого массива в функции иногда выгоднее использовать цикл `for`, а не просто сохранять массив в хранилище. И вот почему.
 
-Let's look at why.
+Очевидная реализация функции `getZombiesByOwner` — хранить карту соответствий `mapping` владельцев зомби-армий в контракте `ZombieFactory`:
 
-For our `getZombiesByOwner` function, a naive implementation would be to store a `mapping` of owners to zombie armies in the `ZombieFactory` contract:
+`` `
+mapping (address => uint []) public ownerToZombies
+`` `
 
-```
-mapping (address =>uint[]) public ownerToZombies
-```
-
-Then every time we create a new zombie, we would simply use `ownerToZombies[owner].push(zombieId)` to add it to that owner's zombies array. And `getZombiesByOwner` would be a very straightforward function:
+Каждый раз при создании нового зомби просто используем `ownerToZombies[owner].push (zombieId)`, чтобы добавить солдата в массив владельца. И `getZombiesByOwner` будет очень простой функцией:
 
 ```
 function getZombiesByOwner(address _owner) external view returns (uint[]) {
@@ -222,42 +220,42 @@ function getZombiesByOwner(address _owner) external view returns (uint[]) {
 }
 ```
 
-### The problem with this approach
+### Проблема этого подхода
 
-This approach is tempting for its simplicity. But let's look at what happens if we later add a function to transfer a zombie from one owner to another (which we'll definitely want to add in a later lesson!).
+Вроде просто, но посмотрим, что произойдет, если позже мы добавим функцию передачи зомби от одного владельца к другому (а мы обязательно захотим добавить эту фичу в следующем уроке!).
 
-That transfer function would need to:
-1. Push the zombie to the new owner's `ownerToZombies` array,
-2. Remove the zombie from the old owner's `ownerToZombies` array,
-3. Shift every zombie in the older owner's array up one place to fill the hole, and then
-4. Reduce the array length by 1.
+Функция передачи должна:
+1. Переместить зомби в массив `ownerToZombies` нового владельца
+2. Удалить зомби из массива `ownerToZombies` предыдущего владельца
+3. В массиве старого владельца переместить всех зомби на одно место вверх, чтобы заполнить пробел, а затем
+4. Уменьшить длину массива на 1.
 
-Step 3 would be extremely expensive gas-wise, since we'd have to do a write for every zombie whose position we shifted. If an owner has 20 zombies and trades away the first one, we would have to do 19 writes to maintain the order of the array.
+Шаг 3 требует слишком много газа, потому что пришлось бы переписать положение для каждого перемещенного зомби. Если у владельца 20 зомби и он продаст первого, то чтобы сохранить порядок зомби, нужно будет сделать 19 новых записей.
 
-Since writing to storage is one of the most expensive operations in Solidity, every call to this transfer function would be extremely expensive gas-wise. And worse, it would cost a different amount of gas each time it's called, depending on how many zombies the user has in their army and the index of the zombie being traded. So the user wouldn't know how much gas to send.
+Поскольку запись в хранилище является одной из самых дорогих операций в Solidity, вызов функции передачи потратит неоправданно много газа. И что еще хуже, при каждом вызове расход газа будет разным, в зависимости от количества зомби в армии пользователя и порядкового номера продаваемого зомби. Таким образом, пользователь не будет знать, сколько газа отправить.
 
-> Note: Of course, we could just move the last zombie in the array to fill the missing slot and reduce the array length by one. But then we would change the ordering of our zombie army every time we made a trade.
+> Примечание. Конечно, мы могли бы просто переместить последнего зомби в массиве, чтобы заполнить недостающий слот и уменьшить длину массива на единицу. Но тогда порядок зомби в армии будет меняться при каждой сделке.
 
-Since `view` functions don't cost gas when called externally, we can simply use a for-loop in `getZombiesByOwner` to iterate the entire zombies array and build an array of the zombies that belong to this specific owner. Then our `transfer` function will be much cheaper, since we don't need to reorder any arrays in storage, and somewhat counter-intuitively this approach is cheaper overall.
+Так как функция `view` при вызове извне не тратит газ, мы можем просто использовать for-loop в `getZombiesByOwner` для перестроения массива принадлежащих конкретному владельцу зомби. Тогда функция `transfer` будет намного дешевле, так как нам не нужно будет перестраивать массивы в хранилище. Кажется контр-интуитивным, но в целом этот подход дешевле.
 
-## Using `for` loops
+## Использование циклов `for`
 
-The syntax of `for` loops in Solidity is similar to JavaScript.
+Синтаксис циклов `for` в Solidity похож на JavaScript.
 
-Let's look at an example where we want to make an array of even numbers:
+Например, мы хотим создать массив четных чисел:
 
 ```
 function getEvens() pure external returns(uint[]) {
   uint[] memory evens = new uint[](5);
-  // Keep track of the index in the new array:
+  // Отслеживай порядковый номер в новом массиве:
   uint counter = 0;
-  // Iterate 1 through 10 with a for loop:
+  // Повторяй цикл `for` от 1 до 10:
   for (uint i = 1; i <= 10; i++) {
-    // If `i` is even...
+    // Если `i` четное...
     if (i % 2 == 0) {
-      // Add it to our array
+      // То в массив добавится
       evens[counter] = i;
-      // Increment counter to the next empty index in `evens`:
+      // Добавь счетчик к следующему свободному номеру в `evens`:
       counter++;
     }
   }
@@ -265,20 +263,20 @@ function getEvens() pure external returns(uint[]) {
 }
 ```
 
-This function will return an array with the contents `[2, 4, 6, 8, 10]`.
+Функция вернет массив, который содержит `[2, 4, 6, 8, 10]`.
 
-## Put it to the test
+## Проверь себя
 
-Let's finish our `getZombiesByOwner` function by writing a `for` loop that iterates through all the zombies in our DApp, compares their owner to see if we have a match, and pushes them to our `result` array before returning it.
+Закончим нашу функцию `getZombiesByOwner`, написав цикл `for` (для), который проходит через всех зомби в DApp, проверяет имена владельцев на совпадение и переносит их в массив `result`, А потом отдает его.
 
-1. Declare a `uint` called `counter` and set it equal to `0`. We'll use this variable to keep track of the index in our `result` array.
+1. Задай `uint` под названием `counter` и установи его равным `0`. Используем эту переменную для отслеживания порядкового номера в массиве `result`.
 
-2. Declare a `for` loop that starts from `uint i = 0` and goes up through `i < zombies.length`. This will iterate over every zombie in our array.
+2. Задай цикл `for`, который начинается с `uint i = 0` и проходит через `i < zombies.length`. Он будет перебирать всех зомби в массиве.
 
-3. Inside the `for` loop, make an `if` statement that checks if `zombieToOwner[i]` is equal to `_owner`. This will compare the two addresses to see if we have a match.
+3. Внутри цикла `for` создай оператор `if` (если), который проверяет, совпадает ли `zombieToOwner [i]` с `_owner`, то есть проверяет два адреса на наличие совпадений.
 
-4. Inside the `if` statement:
-   1. Add the zombie's ID to our `result` array by setting `result[counter]` equal to `i`.
-   2. Increment `counter` by 1 (see the `for` loop example above).
+4. Внутри оператора `if`:
+    1. Добавь идентификатор зомби в массив `result` и установи `result[counter]` равным `i`.
+    2. Увеличь `counter` на 1 (см. пример выше для цикла `for`).
 
-That's it — the function will now return all the zombies owned by `_owner` without spending any gas.
+Вот и все - теперь функция вернет всех принадлежащих `_owner` зомби, не потратив газ.

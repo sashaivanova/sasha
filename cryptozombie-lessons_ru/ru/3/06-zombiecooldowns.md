@@ -1,6 +1,6 @@
 ---
-title: Zombie Cooldowns
-actions: ['checkAnswer', 'hints']
+title: Перезарядка Зомби
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -34,9 +34,9 @@ material:
             kittyContract = KittyInterface(_address);
           }
 
-          // 1. Define `_triggerCooldown` function here
+          // 1. Здесь задать функцию `_triggerCooldown` 
 
-          // 2. Define `_isReady` function here
+          // 2. Здесь задать функцию `_isReady`
 
           function feedAndMultiply(uint _zombieId, uint _targetDna, string _species) public {
             require(msg.sender == zombieToOwner[_zombieId]);
@@ -197,38 +197,36 @@ material:
       }
 ---
 
-Now that we have a `readyTime` property on our `Zombie` struct, let's jump to `zombiefeeding.sol` and implement a cooldown timer.
+Теперь, когда у нас есть свойство `readyTime` в структуре `Zombie`, перейдем к `zombiefeeding.sol` и установим таймер перезарядки. Модифицируем `feedAndMultiply` следующим образом:
 
-We're going to modify our `feedAndMultiply` such that:
+1. Питание запускает функцию перезарядки зомби
 
-1. Feeding triggers a zombie's cooldown, and
+2. Зомби не могут питаться котиками до тех пор, пока не перезарядятся
 
-2. Zombies can't feed on kitties until their cooldown period has passed
+Теперь зомби не смогут целый день пожирать котиков и размножаться. Когда в будущем мы добавим боевые возможности, то сделаем так, чтобы атаковать других зомби тоже можно было только после перезарядки.
 
-This will make it so zombies can't just feed on unlimited kitties and multiply all day. In the future when we add battle functionality, we'll make it so attacking other zombies also relies on the cooldown.
+Сначала зададим кое-какие вспомогательные функции, которые позволят нам устанавливать и проверять готовность зомби — `readyTime`.
 
-First, we're going to define some helper functions that let us set and check a zombie's `readyTime`.
+## Передаем структуры как аргументы
 
-## Passing structs as arguments
+Можно передавать структуре указатель хранилища как аргумент `private` или `internal` функции. Это полезно для передачи структур `Zombie` между функциями.
 
-You can pass a storage pointer to a struct as an argument to a `private` or `internal` function. This is useful, for example, for passing around our `Zombie` structs between functions.
-
-The syntax looks like this:
+Синтаксис выглядит следующим образом:
 
 ```
 function _doStuff(Zombie storage _zombie) internal {
-  // do stuff with _zombie
+  // Сделать что-либо с _zombie
 }
 ```
 
-This way we can pass a reference to our zombie into a function instead of passing in a zombie ID and looking it up.
+Таким способом мы можем передать функции ссылку на нашего зомби  вместо того, чтобы передавать и потом искать зомби-ID.
 
-## Put it to the test 
+## Проверь себя
 
-1. Start by defining a `_triggerCooldown` function. It will take 1 argument, `_zombie`, a `Zombie storage` pointer. The function should be `internal`.
+1. Задай функцию `_triggerCooldown`. Она будет брать аргумент `_zombie`, который указывает на `Zombie storage`. Это функция должна быть внутренней.
 
-2. The function body should set `_zombie.readyTime` to `uint32(now + cooldownTime)`.
+2. Тело функции должно устанавливать `_zombie.readyTime` равным `uint32(now + cooldownTime) `.
 
-3. Next, create a function called `_isReady`. This function will also take a `Zombie storage` argument named `_zombie`. It will be an `internal view` function, and return a `bool`.
+3. Далее создай функцию `_isReady`. Она также берет аргумент `_zombie` из `Zombie storage`. Это функция типа `internal view`, она возвращает значение `bool`.
 
-4. The function body should return `(_zombie.readyTime <= now)`, which will evaluate to either `true` or `false`. This function will tell us if enough time has passed since the last time the zombie fed.
+4. Тело функции должно возвращать `(_zombie.readyTime <= now)`, которое будет либо `true`, либо `false`. Эта функция скажет,  достаточно ли прошло времени с момента последнего питания зомби.

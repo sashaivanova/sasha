@@ -1,6 +1,6 @@
 ---
-title: Time Units
-actions: ['checkAnswer', 'hints']
+title: Отрезки времени
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -17,7 +17,7 @@ material:
 
             uint dnaDigits = 16;
             uint dnaModulus = 10 ** dnaDigits;
-            // 1. Define `cooldownTime` here
+            // 1. Задай время `cooldownTime`
 
             struct Zombie {
                 string name;
@@ -32,7 +32,7 @@ material:
             mapping (address => uint) ownerZombieCount;
 
             function _createZombie(string _name, uint _dna) internal {
-                // 2. Update the following line:
+                // 2. Обнови следующую строчку:
                 uint id = zombies.push(Zombie(_name, _dna)) - 1;
                 zombieToOwner[id] = msg.sender;
                 ownerZombieCount[msg.sender]++;
@@ -183,54 +183,53 @@ material:
       }
 ---
 
-The `level` property is pretty self-explanatory. Later on, when we create a battle system, zombies who win more battles will level up over time and get access to more abilities.
+Свойство `level` очевидно: когда мы создадим систему боя, чаще побеждающие в битвах зомби со временем получат апгрейд и доступ к большему количеству способностей.
 
-The `readyTime` property requires a bit more explanation. The goal is to add a "cooldown period", an amount of time a zombie has to wait after feeding or attacking before it's allowed to feed / attack again. Without this, the zombie could attack and multiply 1,000 times per day, which would make the game way too easy.
+Свойство `readyTime` требует немного больше объяснений. Его задача в том, чтобы добавить «время перезарядки», отрезок времени, который зомби должен переждать, чтобы снова нападать и питаться. Без него, зомби сможет нападать и размножаться 1000 раз в день, что сделало бы игру слишком простой.
 
-In order to keep track of how much time a zombie has to wait until it can attack again, we can use Solidity's time units.
+Чтобы отслеживать, когда зомби снова сможет атаковать, используем единицы времени Solidity.
 
-## Time units
+## Единицы времени
 
-Solidity provides some native units for dealing with time. 
+В Solidity есть собственные единицы для управления временем. 
 
-The variable `now` will return the current unix timestamp (the number of seconds that have passed since January 1st 1970). The unix time as I write this is `1515527488`.
+Переменная `now` вернет текущую временную метку unix (количество секунд, прошедших с 1 января 1970 года). Время этой записи по unix - `1515527488`. 
 
->Note: Unix time is traditionally stored in a 32-bit number. This will lead to the "Year 2038" problem, when 32-bit unix timestamps will overflow and break a lot of legacy systems. So if we wanted our DApp to keep running 20 years from now, we could use a 64-bit number instead — but our users would have to spend more gas to use our DApp in the meantime. Design decisions!
+> Примечание. Unix-время традиционно сохраняется в 32-битном номере. Это приведет к проблеме «2038 года», когда 32-разрядные временные метки unix переполнят и сломают множество устаревших систем. Поэтому, если мы хотим, чтобы наш DApp продолжал работать и через 20 лет, желательно было бы использовать 64-битное число. Но пользователям пришлось бы тратить больше газа для работы DApp. Есть над чем поломать голову!
 
-Solidity also contains the time units `seconds`, `minutes`, `hours`, `days`, `weeks` and `years`. These will convert to a `uint` of the number of seconds in that length of time. So `1 minutes` is `60`, `1 hours` is `3600` (60 seconds x 60 minutes), `1 days` is `86400` (24 hours x 60 minutes x 60 seconds), etc.
+Solidity также содержит единицы времени `seconds`, `minutes`, `hours`, `days`, `weeks` и `years`. Они преобразуются в `uint`, равный количеству секунд в течение отрезка времени. Например: `1 минута` равна `60`, `1 час` равен `3600` (60 секунд x 60 минут), `1 день` равен `86400` (24 часа x 60 минут x 60 секунд).
 
-Here's an example of how these time units can be useful:
+Пример использования единиц времени:
 
 ```
 uint lastUpdated;
 
-// Set `lastUpdated` to `now`
+// Выставим `lastUpdated` на `now`
 function updateTimestamp() public {
   lastUpdated = now;
 }
 
-// Will return `true` if 5 minutes have passed since `updateTimestamp` was 
-// called, `false` if 5 minutes have not passed
+// Вернет `true`, если прошло 5 минут с момента вызова `updateTimestamp`,
+// и `false`, если 5 минут не прошло
 function fiveMinutesHavePassed() public view returns (bool) {
   return (now >= (lastUpdated + 5 minutes));
 }
 ```
 
-We can use these time units for our Zombie `cooldown` feature.
+Мы можем использовать единицы времени для `cooldown` (перезарядки).
 
+## Проверь себя
 
-## Put it to the test 
+Добавим время перезарядки в DApp. Пусть зомби ждет **1 день** после нападения или питания, прежде чем вновь атаковать.
 
-Let's add a cooldown time to our DApp, and make it so zombies have to wait **1 day** after attacking or feeding to attack again.
+1. Задай `uint` под названием `cooldownTime` и установи его равным `1 days`. (Не обращай внимание на кривую грамматику - если задать переменную равной `1 day`, она не скомпилируется!)
 
-1. Declare a `uint` called `cooldownTime`, and set it equal to `1 days`. (Forgive the poor grammar — if you set it equal to "1 day", it won't compile!)
+2. Поскольку в предыдущей главе мы добавили `level` и `readyTime` в структуру `Zombie`, надо обновить `_createZombie()`, чтобы использовать правильное количество аргументов при создании новой структуры `Zombie`.
 
-2. Since we added a `level` and `readyTime` to our `Zombie` struct in the previous chapter, we need to update `_createZombie()` to use the correct number of arguments when we create a new `Zombie` struct.
+  Обнови строчку кода `zombies.push`, добавив еще 2 аргумента: `1` (для `level`) и `uint32(now + cooldownTime)` (для `readyTime`).
 
-  Update the `zombies.push` line of code to add 2 more arguments: `1` (for `level`), and `uint32(now + cooldownTime)` (for `readyTime`).
+>Примечание: `uint32(...)` необходим, потому что `now` вернет по умолчанию `uint256`. Нужно преобразовать его в `uint32`.
 
->Note: The `uint32(...)` is necessary because `now` returns a `uint256` by default. So we need to explicitly convert it to a `uint32`.
+`now + cooldownTime` будет равняться (в секундах) текущему отрезку времени unix плюс количеству секунд в одном дне, что в свою очередь будет равняться отрезку времени через 1 день от текущего момента. Потом мы сравним `readyTime` зомби и `now`. Если оно больше, то зомби снова можно использовать.
 
-`now + cooldownTime` will equal the current unix timestamp (in seconds) plus the number of seconds in 1 day — which will equal the unix timestamp 1 day from now. Later we can compare to see if this zombie's `readyTime` is greater than `now` to see if enough time has passed to use the zombie again.
-
-We'll implement the functionality to limit actions based on `readyTime` in the next chapter.
+В следующей главе мы реализуем функционал ограничения действий на основе `readyTime`. 

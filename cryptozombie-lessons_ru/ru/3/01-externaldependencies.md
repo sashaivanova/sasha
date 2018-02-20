@@ -28,12 +28,12 @@ material:
 
         contract ZombieFeeding is ZombieFactory {
 
-          // 1. Remove this:
+          // 1. Удали:
           address ckAddress = 0x06012c8cf97BEaD5deAe237070F9587f8E7A266d;
-          // 2. Change this to just a declaration:
+          // 2. Измени на просто объявление:
           KittyInterface kittyContract = KittyInterface(ckAddress);
 
-          // 3. Add setKittyContractAddress method here
+          // 3. Добавь метод setKittyContractAddress:
 
           function feedAndMultiply(uint _zombieId, uint _targetDna, string _species) public {
             require(msg.sender == zombieToOwner[_zombieId]);
@@ -141,34 +141,34 @@ material:
       }
 ---
 
-Up until now, Solidity has looked quite similar to other languages like JavaScript.  But there are a number of ways that Ethereum DApps are actually quite different from normal applications.
+До сих пор Solidity был похож на другие языки программирования, например на JavaScript. Но у Ethereum DApps есть несколько важных отличий от обычных приложений.
 
-To start with, after you deploy a contract to Ethereum, it’s **_immutable_**, which means that it can never be modified or updated again.
+Первое — после развертывания на Ethereum контракта он становится **_неизменяемым_**. Это значит, что он никогда не сможет быть модифицирован или обновлен.
 
-The initial code you deploy to a contract is there to stay, permanently, on the blockchain. This is one reason security is such a huge concern in Solidity.  If there's a flaw in your contract code, there's no way for you to patch it later. You would have to tell your users to start using a different smart contract address that has the fix.
+Первоначально развернутый в контракте код останется в блокчейне навсегда. Это одна из самых неприятных проблем с безопасностью в Solidity. Если в коде контракта есть недостаток, позже его не удастся исправить. Тебе придется убедить пользователей перейти на  исправленный адрес смарт-контракта.
 
-But this is also a feature of smart contracts. The code is law. If you read the code of a smart contract and verify it, you can be sure that every time you call a function it's going to do exactly what the code says it will do. No one can later change that function and give you unexpected results.
+Одновременно это и преимущество смарт-контрактов. Код - это закон. Если прочесть и проверить код смарт-контракта, то можно не волноваться: каждый раз при вызове функция будет делать именно то, что написано в коде. Никто не может впоследствии изменить функцию и задать ей незаявленное поведение.
 
-## External dependencies
+## Внешние зависимости
 
-In Lesson 2, we hard-coded the CryptoKitties contract address into our DApp.  But what would happen if the CryptoKitties contract had a bug and someone destroyed all the kitties?
+Во втором уроке мы зашили адрес контракта Криптокотиков в DApp. Но что произойдет, если в контракте Криптокотиков обнаружится баг или кто-то уничтожит всех котиков? 
 
-It's unlikely, but if this did happen it would render our DApp completely useless — our DApp would point to a hardcoded address that no longer returned any kitties. Our zombies would be unable to feed on kitties, and we'd be unable to modify our contract to fix it.
+Это маловероятно, но если вдруг подобное произойдет, то наш DApp станет совершенно бесполезным - он будет указывать на адрес, который больше не возвращает котиков. Зомби не смогут питаться котятами, а мы не сможем починить контракт.
 
-For this reason, it often makes sense to have functions that will allow you to update key portions of the DApp.
+По этой причине имеет смысл предустмотреть функции, позволяющие обновлять ключевые части DApp.
 
-For example, instead of hard coding the CryptoKitties contract address into our DApp, we should probably have a `setKittyContractAddress` function that lets us change this address in the future in case something happens to the CryptoKitties contract.
+Например, вместо того, чтобы зашивать адрес контракта Криптокотиков в DApp, лучше предусмотреть функцию `setKittyContractAddress` (задать адрес котоконтракта). Если в контракте Криптокотиков что-то пойдет не так, она позволит в будущем изменить адрес. 
 
-## Put it to the test
+## Проверь себя
 
-Let's update our code from Lesson 2 to be able to change the CryptoKitties contract address.
+Обновим код из Урока 2, чтобы в будущем можно было заменить адрес контракта Криптокотиков.
 
-1. Delete the line of code where we hard-coded `ckAddress`.
+1. Удали строчку кода вместе с зашитым `ckAddress`.
 
-2. Change the line where we created `kittyContract` to just declare the variable — i.e. don't set it equal to anything.
+2. Там, где мы создали `kittyContract`, измени строчку и просто объяви переменную, не задавая ее равной чему-либо.
 
-3. Create a function called `setKittyContractAddress`. It will take one argument, `_address` (an `address`), and it should be an `external` function.
+3. Создай функцию под названием `setKittyContractAddress`. Она берет аргумент `_address` (адрес). Это должна быть внешняя функция. 
 
-4. Inside the function, add one line of code that sets `kittyContract` equal to `KittyInterface(_address)`.
+4. Внутри функции добавь строчку кода, которая устанавливает `kittyContract` равной `KittyInterface(_address)`.
 
-> Note: If you notice a security hole with this function, don't worry — we'll fix it in the next chapter ;)
+> Примечание: если заметишь дыру в безопасности этой функции, не волнуйся — мы пофиксим ее в следующей главе ;) 

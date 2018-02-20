@@ -1,6 +1,6 @@
 ---
-title: Storage is Expensive
-actions: ['checkAnswer', 'hints']
+title: Дорогое место в хранилище
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -29,7 +29,7 @@ material:
           }
 
           function getZombiesByOwner(address _owner) external view returns(uint[]) {
-            // Start here
+            // Начало здесь
           }
 
         }
@@ -196,45 +196,45 @@ material:
       }
 ---
 
-One of the more expensive operations in Solidity is using `storage` — particularly writes.
+Одна из самых дорогих операций в Solidity - использование `storage` - особенно запись в него.
 
-This is because every time you write or change a piece of data, it’s written permanently to the blockchain. Forever! Thousands of nodes across the world need to store that data on their hard drives, and this amount of data keeps growing over time as the blockchain grows. So there's a cost to doing that.
+Каждый раз, когда ты записываешь или изменяешь данные, они навсегда записываются в блокчейн! Тысячи нод по всему миру должны хранить эти данные на своих жестких дисках, объем данных растет по мере роста блокчейна. Поэтому за это надо платить газ.
 
-In order to keep costs down, you want to avoid writing data to storage except when absolutely necessary. Sometimes this involves seemingly inefficient programming logic — like rebuilding an array in `memory` every time a function is called instead of simply saving that array in a variable for quick lookups. 
+Чтобы снизить затраты, старайся избегать записывать данные в хранилище, кроме случаев, когда это абсолютно необходимо. Иногда приходится прибегать к неэффективной логике программирования - например, восстанавливать массив в `memory` при каждом вызове функции вместо простого сохранения его в переменной для быстрого поиска.
 
-In most programming languages, looping over large data sets is expensive. But in Solidity, this is way cheaper than using `storage` if it's in an `external view` function, since `view` functions don't cost your users any gas. (And gas costs your users real money!).
+В большинстве языков программирования объединение в цикл больших наборов данных — дорогостоящая операция. А в Solidity это намного дешевле, чем `storage`, если цикл находится внутри функции `external view`, так как за `view` пользователь не платит газ. (А газ стоит денег!).
 
-We'll go over `for` loops in the next chapter, but first, let's go over how to declare arrays in memory.
+В следующей главе мы перейдем к циклам `for`, но сначала посмотрим, как задавать массивы в памяти.
 
-## Declaring arrays in memory
+## Задание массивов в памяти
 
-You can use the `memory` keyword with arrays to create a new array inside a function without needing to write anything to storage. The array will only exist until the end of the function call, and this is a lot cheaper gas-wise than updating an array in `storage` — free if it's a `view` function called externally.
+Чтобы создать новый массив внутри функции без необходимости записывать в хранилище, используй ключевое слово `memory`. Массив просуществует только до конца вызова функции и потратит меньше газа, чем обновление массива в `storage`. Если вызываемая извне функция `view`, то операция будет бесплатной.
 
-Here's how to declare an array in memory:
+Вот как задать массив в памяти:
 
 ```
 function getArray() external pure returns(uint[]) {
-  // Instantiate a new array in memory with a length of 3
+  // Создай в памяти новый массив с длиной 3
   uint[] memory values = new uint[](3);
-  // Add some values to it
+  // Добавь значений
   values.push(1);
   values.push(2);
   values.push(3);
-  // Return the array
+  // Верни массив
   return values;
 }
 ```
 
-This is a trivial example just to show you the syntax, but in the next chapter we'll look at combining this with `for` loops for real use-cases.
+Это элементарный пример синтаксиса, в следующей главе мы рассмотрим объединение циклов `for` для реальных кейсов.
 
->Note: memory arrays **must** be created with a length argument (in this example, `3`). They currently cannot be resized like storage arrays can with `array.push()`, although this may be changed in a future version of Solidity.
+> Примечание: массивы памяти **должны** создаваться с аргументом длины (`3` в этом примере). Пока что их нельзя изменить с помощью `array.push()` аналогично массивам хранилища. Может быть, эту функцию добавят в будущей версии Solidity.
 
-## Put it to the test
+## Проверь себя
 
-In our `getZombiesByOwner` function, we want to return a `uint[]` array with all the zombies a particular user owns.
+Мы хотим, чтобы функция `getZombiesByOwner` возвращала массив `uint[]` со всеми зомби, которыми владеет определенный пользователь.
 
-1. Declare a `uint[] memory` variable called `result`
+1. Задай переменную `uint[] memory` под названием `result`
 
-2. Set it equal to a new `uint` array. The length of the array should be however many zombies this `_owner` owns, which we can look up from our `mapping` with: `ownerZombieCount[_owner]`.
+2. Установи ее равной новому массиву `uint`. Длина массива должна быть равна тому количеству зомби, которыми владеет `_owner`. Возьмем данные из карты соответствия: `ownerZombieCount [_owner]`.
 
-3. At the end of the function return `result`. It's just an empty array right now, but in the next chapter we'll fill it in.
+3. В конце функция вернет результат `result`. Пока это просто пустой массив, в следующей главе мы его заполним.
