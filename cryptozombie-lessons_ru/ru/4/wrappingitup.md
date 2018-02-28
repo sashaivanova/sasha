@@ -1,6 +1,6 @@
 ---
-title: Wrapping It Up
-actions: ['checkAnswer', 'hints']
+title: Подведем итог
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   saveZombie: false
@@ -11,18 +11,18 @@ material:
     answer: 1
 ---
 
-Congratulations! That concludes Lesson 4.
+Поздравляем тебя! Завершен Урок 4.
 
-Go ahead and test out your battle function to the right!
+Вперед! Испытай боевую функцию в окне справа.
 
-## Claim your reward
+## Получи вознаграждение
 
-After winning the battle:
+После победы:
 
-1. Your zombie will level up
+1. Твой зомби получит новый уровень
 
-2. Your zombie will increase his `winCount`
+2. Твой зомби увеличит `winCount`
 
-3. You will spawn a new zombie to add to your army!
+3. К твой армии присоединится вновь созданный зомби!
 
-Go ahead and try the battle, then proceed to the next chapter to complete the lesson.
+Испытай боевую функцию в деле! Затем переходи к следующему разделу, чтобы закончить урок. 

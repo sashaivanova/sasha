@@ -1,6 +1,6 @@
 ---
-title: Zombie Battles
-actions: ['checkAnswer', 'hints']
+title: Битвы Зомби
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -207,18 +207,18 @@ material:
       }
 ---
 
-Now that we've learned about payable functions and contract balances, it's time to add functionality for zombie battles!
+Мы узнали о платных функциях и балансах контрактов. Теперь пришло время добавить функционал битв зомби!
 
-Following the format from previous chapters, we'll organize our code by creating a new file / contract for the attack functionality that imports from the previous contract.
+Взяв за основу формат предыдущих разделов, упорядочим код, создав новый файл/контракт для функции атаки, который импортирует данные из предыдущего контракта.
 
-## Put it to the test
+## Проверь себя
 
-Let's review creating a new contract. Repetition leads to mastery!
+Рассмотрим создание нового контракта. Повторенье — мать ученья! ;)
 
-If you can't remember the syntax for doing these, check `zombiehelper.sol` for the syntax — but try to do it without peaking first to test your knowledge.
+Если не можешь вспомнить особенности синтаксиса для написания контракта, загляни в `zombiehelper.sol`. Но будет лучше, если ты проверишь себя и попробуешь сделать это без шпаргалки.
 
-1. Declare at the top of the file that we're using Solidity version `^0.4.19`.
+1. Задай вверху файла версию Solidity `^ 0.4.19`.
 
-2. `import` from `zombiehelper.sol`.
+2. `import` из `zombiehelper.sol`.
 
-3. Declare a new `contract` called `ZombieBattle` that inherits from `ZombieHelper`. Leave the function body empty for now.
+3. Создай новый `contract` под названием `ZombieBattle`, который наследует `ZombieHelper`. Тело функции пока оставь пустым.

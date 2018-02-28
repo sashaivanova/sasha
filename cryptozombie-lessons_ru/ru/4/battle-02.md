@@ -1,6 +1,6 @@
 ---
-title: Random Numbers
-actions: ['checkAnswer', 'hints']
+title: Случайные числа
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -10,7 +10,7 @@ material:
         import "./zombiehelper.sol";
 
         contract ZombieBattle is ZombieHelper {
-          // Start here
+          // Начало здесь
         }
       "zombiehelper.sol": |
         pragma solidity ^0.4.19;
@@ -216,62 +216,62 @@ material:
 
 ---
 
-Great! Now let's figure out the battle logic.
+Отлично! Теперь разберемся с логикой битвы.
 
-All good games require some level of randomness. So how do we generate random numbers in Solidity?
+Все хорошие игры требуют некоего элемента случайности. Как в Solidity генерировать случайные числа?
 
-The real answer here is, you can't. Well, at least you can't do it safely.
+Правильный ответ — НИКАК. Нет способа делать это безопасно.
 
-Let's look at why.
+И вот почему.
 
-## Random number generation via `keccak256`
+## Генерация случайных чисел через `keccak256`
 
-The best source of randomness we have in Solidity is the `keccak256` hash function.
+Лучший способ создать источник случайностей в Solidity — хэш-функция `keccak256`.
 
-We could do something like the following to generate a random number:
+Можно написать код вроде такого:
 
 ```
-// Generate a random number between 1 and 100:
+// Сгенерировать случайное число от 1 до 100:
 uint randNonce = 0;
 uint random = uint(keccak256(now, msg.sender, randNonce)) % 100;
 randNonce++;
 uint random2 = uint(keccak256(now, msg.sender, randNonce)) % 100;
 ```
 
-What this would do is take the timestamp of `now`, the `msg.sender`, and an incrementing `nonce` (a number that is only ever used once, so we don't run the same hash function with the same input parameters twice). 
+Эта функция берет временную метку `now`, `msg.sender` и добавочный `nonce` (nonce - число, используемое только один раз, поэтому не запускают дважды хэш-функцию с одним и тем же наборов входных данных).
 
-It would then use `keccak` to convert these inputs to a random hash, convert that hash to a `uint`, and then use `% 100` to take only the last 2 digits, giving us a totally random number between 0 and 100.
+Затем она использует `keccak` для преобразования входных данных в случайный хэш, конвертирует этот хэш в `uint`, далее выполняет `%100`, чтобы взять только последние 2 цифры. Эта процедура дает нам абсолютно случайное число от 0 до 100.
 
-### This method is vulnerable to attack by a dishonest node
+### Этот метод уязвим перед типом атаки, известным как «нечестная нода»
 
-In Ethereum, when you call a function on a contract, you broadcast it to a node or nodes on the network as a **_transaction_**. The nodes on the network then collect a bunch of transactions, try to be the first to solve a computationally-intensive mathematical problem as a "Proof of Work", and then publish that group of transactions along with their Proof of Work (PoW) as a **_block_** to the rest of the network.
+Когда ты вызываешь функцию в контракте Ethereum, то транслируешь ее ноде или нодам в сети как **_транзакцию_**. Ноды в сети собирают много транзакций вместе и стараются первыми найти решение сложной математической задачи, чтобы получить «Доказательство работы». Затем они публикуют в сети эту группу транзакций и доказательство работы (PoW) как **_блок_**.
 
-Once a node has solved the PoW, the other nodes stop trying to solve the PoW, verify that the other node's list of transactions are valid, and then accept the block and move on to trying to solve the next block.
+Как только нода решила задачу и получила PoW, другие ноды перестают решать эту задачу, проверяют валидность списка транзакций решившей ноды, принимают блок и включают его в блокчейн. Затем приступают к поиску решения задачи для следующего блока.
 
-**This makes our random number function exploitable.**
+**Теоретически из-за этого функцию случайных чисел можно взломать.**
 
-Let's say we had a coin flip contract — heads you double your money, tails you lose everything. Let's say it used the above random function to determine heads or tails. (`random >= 50` is heads, `random < 50` is tails).
+Представим, что существует контракт игры типа «орел-решка» - если выпадает орел, то активы удваиваются, если выпадает решка, то игрок теряет все. Предположим, что функция определяет выпадение орла и решки. (`random >= 50` - орел, `random <50` - решка).
 
-If I were running a node, I could publish a transaction **only to my own node** and not share it. I could then run the coin flip function to see if I won — and if I lost, choose not to include that transaction in the next block I'm solving. I could keep doing this indefinitely until I finally won the coin flip and solved the next block, and profit.
+Если человек держит ноду, то он может опубликовать транзакцию **только в своей собственной ноде** и не делиться ей ни с кем. Он может запустить функцию подбрасывания монеты, чтобы увидеть результат — орел или решка — и не включать транзакцию в следующий блок при проигрыше. Можно продолжать делать это бесконечно, пока не выпадет нужная сторона монеты, и эту транзакцию уже включить в следующий блок — профит!
 
-## So how do we generate random numbers safely in Ethereum?
+## Как же решить проблему безопасной генерации случайных чисел в Ethereum?
 
-Because the entire contents of the blockchain are visible to all participants, this is a hard problem, and its solution is beyond the scope of this tutorial. You can read <a href="https://ethereum.stackexchange.com/questions/191/how-can-i-securely-generate-a-random-number-in-my-smart-contract" target=_new>this StackOverflow thread</a> for some ideas. One idea would be to use an **_oracle_** to access a random number function from outside the Ethereum blockchain.
+Поскольку содержимое блокчейна видно всем участникам, это нелегкая задача, и ее решение выходит за рамки данного руководства. Для вдохновения почитай тему на StackOverflow <a href="https://ethereum.stackexchange.com/questions/191/how-can-i-securely-generate-a-random-number-in-my-smart-contract" target=_new></a>. Одна из идей — использовать **_оракул_** для доступа к функции генерации случайных чисел извне блокчейна Ethereum.
 
-Of course, since tens of thousands of Ethereum nodes on the network are competing to solve the next block, my odds of solving the next block are extremely low. It would take me a lot of time or computing resources to exploit this profitably — but if the reward were high enough (like if I could bet $100,000,000 on the coin flip function), it would be worth it for me to attack.
+Разумеется, в условиях десятков тысяч конкурирующих за блок нод в сети Ethereum, шансы на нахождение ответа следующего блока крайне низки. Нужно много времени и вычислительных ресурсов, чтобы воспользоваться уязвимостью - но если вознаграждение было бы достаточно высоким (например, если можно выиграть 100 000 000 долларов в орел-решку), то атаковать целесообразно.
 
-So while this random number generation is NOT secure on Ethereum, in practice unless our random function has a lot of money on the line, the users of your game likely won't have enough resources to attack it.
+Таким образом генерация случайных чисел в Ethereum НЕ безопасна. На практике, если наша случайная функция не обещает очень больших денег, то у пользователей игры не хватит ресурсов для атаки.
 
-Because we're just building a simple game for demo purposes in this tutorial and there's no real money on the line, we're going to accept the tradeoffs of using a random number generator that is simple to implement, knowing that it isn't totally secure.
+На этом курсе мы пишем простую игру в демонстрационных целях и в ней не задействованы реальные деньги. Поэтому используем простой в реализации генератор случайных чисел, отдавая себе отчет, что он не полностью безопасен.
 
-## Put it to the test
+## Проверь себя
 
-Let's implement a random number function we can use to determine the outcome of our battles, even if it isn't totally secure from attack.
+Внедрим функцию, которая с помощью случайных чисел будет определять результат битвы. К сожалению, она не будет защищена от атак полностью.
 
-1. Give our contract a `uint` called `randNonce`, and set it equal to `0`.
+1. Задай в контракте `uint` под названием `randNonce` и установи его равным `0`.
 
-2. Create a function called `randMod` (random-modulus). It will be an `internal` function that takes a `uint` named `_modulus`, and `returns` a `uint`.
+2. Создай функцию под названием `randMod` (случайный модуль). Это будет `internal` функция, которая берет `uint` с именем `_modulus` и возвращает `uint`.
 
-3. The function should first increment `randNonce` (using the syntax `randNonce++`).
+3. Сначала функция выполняет `randNonce` (используя синтаксис `randNonce++`).
 
-4. Finally, it should (in one line of code) calculate the `uint` typecast of the `keccak256` hash of `now`, `msg.sender`, and `randNonce` — and `return` that value `% _modulus`. (Whew! That was a mouthful. If you didn't follow that, just take a look at the example above where we calculated a random number — the logic is very similar).
+4. Наконец, функция одной строчкой кода вычисляет тип `uint` хэша `keccak256` от `now`, `msg.sender` и `randNonce` - и возвращает (`return`) значение `% _modulus`. (Вау, это было сложно выговорить. Если тебе не удалось уследить за мыслью, просто посмотри пример вычисления случайного числа выше - логика очень похожа).

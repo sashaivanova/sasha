@@ -1,6 +1,6 @@
 ---
-title: battle arena
-actions: ['checkAnswer', 'hints']
+title: Арена битвы
+actions: ['Проверить', 'Подсказать']
 material:
   saveZombie: false
   battleArena:
@@ -11,24 +11,24 @@ material:
     answer: 1
 ---
 
-In lesson 1, we created a function that takes a name, uses it to generate a random zombie, and adds that zombie to our app's zombie database on the blockchain.
+В Уроке 1 мы создали функцию, которая генерирует случайного зомби из имени и добавляет его в базу данных блокчейн-приложения.
 
-In lesson 2, we're going to make our app more game-like: We're going to make it multi-player, and we'll also be adding a more fun way to create zombies instead of just generating them randomly.
+В Уроке 2 мы добавим приложению геймификации: сделаем многопользовательский режим и вместо скучной случайной генерации изобретем увлекательный способ создания новых зомби.
 
-How will we create new zombies? By having our zombies "feed" on other lifeforms!
+Что же это за увлекательный способ создания новых зомби? Заставим их питаться другими формами жизни!
 
-## Zombie Feeding
+## Питание зомби
 
-When a zombie feeds, it infects the host with a virus. The virus then turns the host into a new zombie that joins your army. The new zombie's DNA will be calculated from the previous zombie's DNA and the host's DNA.
+Когда зомби питается, он передает хозяину вирус. Затем вирус превращает съеденного в нового зомби, который присоединяется к твоей армии. ДНК нового зомби вычисляется из ДНК нападающего зомби и ДНК съеденного.
 
-And what do our zombies like to feed on most?
+Кем зомби любят питаться больше всего?
 
-To find that out... You'll have to complete lesson 2!
+Закончи Урок 2 и узнаешь! 
 
-# Put it to the test
+# Попробуй!
 
-There's a simple demo of feeding to the right. Click on a human to see what happens when your zombie feeds!
+Справа — простая демонстрация того, как питается зомби! Кликни на человека и увидишь, что будет, когда зомби его сожрет!
 
-You can see that the new zombie's DNA is determined by your original zombie's DNA, as well as the host's DNA.
+Видишь, ДНК зомби определяется собственной ДНК зомби и ДНК съеденного человека. 
 
-When you're ready, click "Next chapter" to move on, and let's get started by making our game multi-player.
+Когда захочешь двигаться дальше, кликай на «Следующая глава», и приступим к созданию многопользовательского режима.

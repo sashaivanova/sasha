@@ -1,6 +1,6 @@
 ---
-title: Back to Attack!
-actions: ['checkAnswer', 'hints']
+title: Снова в атаку!
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -18,9 +18,9 @@ material:
             return uint(keccak256(now, msg.sender, randNonce)) % _modulus;
           }
 
-          // 1. Add modifier here
+          // 1. Здесь добавь модификатор
           function attack(uint _zombieId, uint _targetId) external {
-            // 2. Start function definition here
+            // 2. Здесь определи функцию 
           }
         }
       "zombiehelper.sol": |
@@ -230,18 +230,18 @@ material:
       }
 ---
 
-Enough refactoring — back to `zombieattack.sol`.
+Пожалуй хватит рефакторинга - вернемся к `zombieattack.sol`.
 
-We're going to continue defining our `attack` function, now that we have the `ownerOf` modifier to use.
+Продолжим с функцией `attack` и используем модификатор `ownerOf`.
 
-## Put it to the test
+## Проверь себя
 
-1. Add the `ownerOf` modifier to `attack` to make sure the caller owns `_zombieId`.
+1. Добавь модификатор `ownerOf` к `attack`, чтобы убедиться, что вызывающий функцию — настоящий владелец `_zombieId`.
 
-2. The first thing our function should do is get a `storage` pointer to both zombies so we can more easily interact with them:
+2. Первая задача функции - получить указатель `storage` для обоих зомби. Так будет проще взаимодействовать с ними:
 
-  a. Declare a `Zombie storage` named `myZombie`, and set it equal to `zombies[_zombieId]`.
+   а. Задай `Zombie storage` под названием `myZombie` и установи его равным `zombies[_zombieId]`.
 
-  b. Declare a `Zombie storage` named `enemyZombie`, and set it equal to `zombies[_targetId]`.
+   б. Задай `Zombie storage` под названием `enemyZombie` и установи его равным `zombies[_targetId]`.
 
-3. We're going to use a random number between 0 and 100 to determine the outcome of our battle. So declare a `uint` named `rand`, and set it equal to the result of the `randMod` function with `100` as an argument.
+3. Для определения исхода битвы используем случайное число от 0 до 100. Задай `uint` под названием `rand` и установи его равным результату функции `randMod` со `100` в качестве аргумента.

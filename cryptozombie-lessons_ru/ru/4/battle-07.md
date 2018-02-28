@@ -1,6 +1,6 @@
 ---
-title: Zombie Wins and Losses
-actions: ['checkAnswer', 'hints']
+title: Победы и поражения зомби
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -24,7 +24,7 @@ material:
               uint dna;
               uint32 level;
               uint32 readyTime;
-              // 1. Add new properties here
+              // 1. Здесь добавь новые свойства
             }
 
             Zombie[] public zombies;
@@ -33,7 +33,7 @@ material:
             mapping (address => uint) ownerZombieCount;
 
             function _createZombie(string _name, uint _dna) internal {
-                // 2. Modify new zombie creation here:
+                // 2. Здесь модифицируй функцию создания нового зомби:
                 uint id = zombies.push(Zombie(_name, _dna, 1, uint32(now + cooldownTime))) - 1;
                 zombieToOwner[id] = msg.sender;
                 ownerZombieCount[msg.sender]++;
@@ -262,24 +262,24 @@ material:
       }
 ---
 
-For our zombie game, we're going to want to keep track of how many battles our zombies have won and lost. That way we can maintain a "zombie leaderboard" in our game state.
+Нужно отслеживать, сколько битв зомби выиграли и проиграли — так «таблица зомби-лидеров» всегда будет в актуальном состоянии.
 
-We could store this data in a number of ways in our DApp — as individual mappings, as leaderboard Struct, or in the `Zombie` struct itself.
+Можно хранить эти данные в DApp разными способами: как индивидуальные карты соответствий, как структуру — рейтинг лидеров или как саму структуру `Zombie`.
 
-Each has its own benefits and tradeoffs depending on how we intend on interacting with the data. In this tutorial, we're going to store the stats on our `Zombie` struct for simplicity, and call them `winCount` and `lossCount`.
+У всех способов есть преимущества и недостатки, которые зависят от выбранного способа взаимодействия с данными. В этом уроке просто сохраним результаты битв в структуре `Zombie` и назовем их `winCount` и `lossCount`.
 
-So let's jump back to `zombiefactory.sol`, and add these properties to our `Zombie` struct.
+Вернемся к `zombiefactory.sol` и добавим новые свойства в структуру `Zombie`.
 
-## Put it to the test
+## Проверь себя
 
-1. Modify our `Zombie` struct to have 2 more properties:
+1. Модифицируй структуру `Zombie`, чтобы появилось два новых свойства:
 
-  a. `winCount`, a `uint16`
+  a. Счетчик побед `winCount`, (`uint16`)
 
-  b. `lossCount`, also a `uint16`
+  b. Счетчик поражений `lossCount` (тоже `uint16`)
 
-  >Note: Remember, since we can pack `uint`s inside structs, we want to use the smallest `uint`s we can get away with. A `uint8` is too small, since 2^8 = 256 — if our zombies attacked once per day, they could overflow this within a year. But 2^16 is 65536 — so unless a user wins or loses every day for 179 years straight, we should be safe here.
+ >Примечание: Помнишь, что `uint` можно упаковать внутри structs и задать самые маленькие подходящие `uint`? Нам будет мало `uint8`, потому что 2^8 = 256, если зомби атакуют раз в день, то заполнят хранилище в течение года. Но, к примеру, 2^16 = 65536, этого пользователю хватит на 179 лет ежедневных зомбобитв.
 
-2. Now that we have new properties on our `Zombie` struct, we need to change our function definition in `_createZombie()`.
+2. Теперь, когда мы добавили новые свойства в нашей структуре `Zombie`, нужно изменить определение функции  ` _createZombie()`.
 
-  Change the zombie creation definition so it creates each new zombie with `0` wins and `0` losses.
+   Измени параметры создания зомби, чтобы каждый новый зомби появлялся с `0` побед и `0` поражений.

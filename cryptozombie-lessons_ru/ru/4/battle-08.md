@@ -1,6 +1,6 @@
 ---
-title: Zombie Victory 😄
-actions: ['checkAnswer', 'hints']
+title: Победа Зомби! 😄
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -22,7 +22,7 @@ material:
             Zombie storage myZombie = zombies[_zombieId];
             Zombie storage enemyZombie = zombies[_targetId];
             uint rand = randMod(100);
-            // Start here
+            // Начало здесь
           }
         }
       "zombiehelper.sol": |
@@ -238,20 +238,20 @@ material:
       }
 ---
 
-Now that we have a `winCount` and `lossCount`, we can update them depending on which zombie wins the fight.
+Теперь, когда у нас есть `winCount` и `lossCount`, мы можем обновлять их в зависимости от того, какой зомби побеждает в битве.
 
-In chapter 6 we calculated a random number from 0 to 100. Now let's use that number to determine who wins the fight, and update our stats accordingly.
+В главе 6 мы вычислили случайное число от 0 до 100. Используем его для определения победителя и соответствующего обновления статистики.
 
-## Put it to the test
+## Проверь себя
 
-1. Create an `if` statement that checks if `rand` is **_less than or equal to_** `attackVictoryProbability`.
+1. Создай оператор `if`, который проверяет `rand` **_меньше или равно_** `attackVictoryProbability`.
 
-2. If this condition is true, our zombie wins! So:
+2. Если условие верно, то твой зомби побеждает! Итак:
 
-  a. Increment `myZombie`'s `winCount`.
+  а. Повышаем `winCount` для `myZombie` .
 
-  b. Increment `myZombie`'s `level`. (Level up!!!!!!!)
+  b. Повышаем `level` для `myZombie``` (Новый уровень!!!)
 
-  c. Increment `enemyZombie`'s `lossCount`. (Loser!!!!!! 😫 😫 😫)
+  c. Повышаем `lossCount` для `enemyZombie`. (Неудачник!!!😫😫😫)
 
-  d. Run the `feedAndMultiply` function. Check `zombiefeeding.sol` to see the syntax for calling it. For the 3rd argument (`_species`), pass the string "zombie". (It doesn't actually do anything at the moment, but later we could add extra functionality for spawning zombie-based zombies if we wanted to).
+  d. Запускаем функцию `feedAndMultiply`. Посмотри синтаксив вызова функции в `zombiefeeding.sol`. Для третьего аргумента (`_species`) передай строку «зомби» (на данный момент он ничего не делает, но потом при желании можно добавить дополнительный функционал для размножения зомби).

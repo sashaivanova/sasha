@@ -1,6 +1,6 @@
 ---
-title: Zombie Fightin'
-actions: ['checkAnswer', 'hints']
+title: Зомби сражаются
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -11,14 +11,14 @@ material:
 
         contract ZombieBattle is ZombieHelper {
           uint randNonce = 0;
-          // Create attackVictoryProbability here
+          // Здесь создай attackVictoryProbability 
 
           function randMod(uint _modulus) internal returns(uint) {
             randNonce++;
             return uint(keccak256(now, msg.sender, randNonce)) % _modulus;
           }
 
-          // Create new function here
+          // Здесь создай новую функцию
         }
       "zombiehelper.sol": |
         pragma solidity ^0.4.19;
@@ -227,23 +227,23 @@ material:
       }
 ---
 
-Now that we have a source of some randomness in our contract, we can use it in our zombie battles to calculate the outcome.
+Теперь в контракте есть источник рандомности и мы можем использовать его в зомби-битвах для вычисления результата.
 
-Our zombie battles will work as follows:
+Зомби-битвы будут устроены так:
 
-- You choose one of your zombies, and choose an opponent's zombie to attack
-- If you're the attacking zombie, you will have a 70% chance of winning. The defending zombie will have a 30% chance of winning.
-- All zombies (attacking and defending) will have a `winCount` and a `lossCount` that will increment depending on the outcome of the battle.
-- If the attacking zombie wins, it levels up and spawns a new zombie.
-- If it loses, nothing happens (except its lossCount incrementing)
-- Whether it wins or loses, the attacking zombie's cooldown time will be triggered.
+- Ты выбираешь одного из своих зомби-бойцов и подбираешь ему оппонента 
+- Если ты атакуешь, то у твоего зомби 70% шанс на победу. У защищающегося зомби шанс выиграть 30%
+- Все зомби (атакующие и защищающие) будут иметь `winCount` и `lossCount`, которые меняют значение в зависимости от результата боя
+- Если атакующий зомби побеждает, он получает следующий уровень и производит нового зомби
+- Если он проигрывает, ничего не происходит (за исключением увеличения счетчика потерь lossCount)
+- Независимо от победы или поражения запускается счетчик времени перезарядки
 
-This is a lot of logic to implement, so we'll do it in pieces over the coming chapters.
+Столько логики сложно внедрить сразу, поэтому будем рассматривать ее частями в следующих главах.
 
-## Put it to the test
+## Проверь себя
 
-1. Give our contract a `uint` variable called `attackVictoryProbability`, and set it equal to `70`.
+1. Введи в контракт переменную `uint` под названием `attackVictoryProbability` и установи ее равной `70`.
 
-2. Create a function called `attack`. It will take two parameters: `_zombieId` (a `uint`) and `_targetId` (also a `uint`). It should be an `external` function.
+2. Создай функцию под названием `attack`. Она берет два параметра: `_zombieId` (`uint`) и `_targetId` (тоже `uint`). Сделай эту функцию внешней.
 
-Leave the function body empty for now.
+Тело функции пока что оставь пустым.

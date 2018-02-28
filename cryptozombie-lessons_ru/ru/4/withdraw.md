@@ -1,6 +1,6 @@
 ---
-title: Withdraws
-actions: ['checkAnswer', 'hints']
+title: Вывод средств
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -20,9 +20,9 @@ material:
             _;
           }
 
-          // 1. Create withdraw function here
+          // 1. Здесь создай функцию вывода средств 
 
-          // 2. Create setLevelUpFee function here
+          // 2. Здесь создай функцию setLevelUpFee 
 
           function levelUp(uint _zombieId) external payable {
             require(msg.value == levelUpFee);
@@ -244,11 +244,11 @@ material:
       }
 ---
 
-In the previous chapter, we learned how to send Ether to a contract. So what happens after you send it?
+В предыдущей главе мы узнали, как отправить ETH на адрес контракта. Что происходит после отправки?
 
-After you send Ether to a contract, it gets stored in the contract's Ethereum account, and it will be trapped there — unless you add a function to withdraw the Ether from the contract. 
+После отправки ETH он сохранится в контракте в аккаунте Ethereum. Он не исчезнет оттуда, пока ты не добавишь функцию снятия ETH с адреса контракта.
 
-You can write a function to withdraw Ether from the contract as follows:
+Вот функция для снятия ETH с адреса контракта:
 
 ```
 contract GetPaid is Ownable {
@@ -258,29 +258,29 @@ contract GetPaid is Ownable {
 }
 ```
 
-Note that we're using `owner` and `onlyOwner` from the `Ownable` contract, assuming that was imported.
+Обрати внимание, что мы используем `owner` и `onlyOwner` из контракта `Ownable` при условии его импортации.
 
-You can transfer Ether to an address using the `transfer` function, and `this.balance` will return the total balance stored on the contract. So if 100 users paid us 1 Ether, `this.balance` would equal 100 Ether.
+Можно перевести ETH на адрес, используя функцию `transfer`, а функция `this.balance` вернет общий баланс контракта. Если 100 пользователей заплатили по 1 ETH, `this.balance` вернет 100 ETH.
 
-You can use `transfer` to send funds to any Ethereum address. For example, you could have a function that transfers Ether back to the `msg.sender` if they overpaid for an item:
+Ты можешь использовать `transfer`, чтобы переводить средства на любой адрес Ethereum. Например, можно предусмотреть функцию, которая переведет ETH обратно `msg.sender`у, если он переплатил за предмет:
 
 ```
 uint itemFee = 0.001 ether;
 msg.sender.transfer(msg.value - itemFee);
 ```
 
-Or in a contract with a buyer and a seller, you could save the seller's address in storage, then when someone purchases his item, transfer him the fee paid by the buyer: `seller.transfer(msg.value)`.
+Или в контракте между покупателем и продавцом можно сохранить адрес продавца в хранилище, а затем, когда кто-то купит его предмет, перевести ему комиссию, оплаченную покупателем: `seller.transfer (msg.value)`.
 
-These are some examples of what makes Ethereum programming really cool — you can have decentralized marketplaces like this that aren't controlled by anyone.
+Это одна из самых классных фишек программирования на Ethereum - можно создавать никому не подконтрольные децентрализованные рынки вроде нашего.
 
-## Putting it to the Test
+## Проверь себя
 
-1. Create a `withdraw` function in our contract, which should be identical to the `GetPaid` example above.
+1. Создай в контракте функцию `withdraw`, идентичную примеру выше `GetPaid`.
 
-2. The price of Ether has gone up over 10x in the past year. So while 0.001 ether is about $1 at the time of this writing, if it goes up 10x again, 0.001 ETH will be $10 and our game will be a lot more expensive.
+2. За последний год цена ETH выросла больше, чем в 10 раз. На момент написания этого текста 0,001 ETH составлял около 1 доллара, но если цена ETH снова вырастет в 10 раз, то 0,001 ETH уже будет 10 долларов, и игра станет намного дороже.
 
-  So it's a good idea to create a function that allows us as the owner of the contract to set the `levelUpFee`.
+  По этой причине лучше создать функцию, позволяющую владельцу контракта установить `levelUpFee`.
 
-  a. Create a function called `setLevelUpFee` that takes one argument, `uint _fee`, is `external`, and uses the modifier `onlyOwner`.
+  a. Создай функцию `setLevelUpFee`, которая берет аргумент `uint _fee`, является `external` и использует модификатор `onlyOwner`.
 
-  b. The function should set `levelUpFee` equal to `_fee`.
+  b. Функция должна устанавливать `levelUpFee` равной `_fee`.

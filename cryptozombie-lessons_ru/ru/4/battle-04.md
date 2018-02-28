@@ -1,6 +1,6 @@
 ---
-title: Refactoring Common Logic
-actions: ['checkAnswer', 'hints']
+title: Общая логика рефакторинга
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -30,7 +30,7 @@ material:
 
           KittyInterface kittyContract;
 
-          // 1. Create modifier here
+          // 1. Здесь создай модификатор
 
           function setKittyContractAddress(address _address) external onlyOwner {
             kittyContract = KittyInterface(_address);
@@ -276,34 +276,34 @@ material:
       }
 ---
 
-Whoever calls our `attack` function — we want to make sure the user actually owns the zombie they're attacking with. It would be a security concern if you could attack with someone else's zombie!
+Кто бы ни вызывал функцию `attack`, необходимо убедиться, что пользователь действительно хозяин боевого зомби. Если бы любой мог атаковать чужим зомби, то мы бы получили нехилую проблему с безопасностью!
 
-Can you think of how we would add a check to see if the person calling this function is the owner of the `_zombieId` they're passing in?
+Подумай, как добавить такую проверку: нам надо узнать, является ли вызывающий функцию человек владельцем заявленного `_zombieId`?
 
-Give it some thought, and see if you can come up with the answer on your own.
+Подумай! Сможешь ли ты самостоятельно найти ответ?
 
-Take a moment... Refer to some of our previous lessons' code for ideas...
+Думай столько, сколько нужно, вдохновись предыдущими уроками.
 
-Answer below, don't continue until you've given it some thought.
+Ответ ниже, но постарайся не подглядывать, пока не догадаешься самостоятельно.
 
-## The answer
+## Ответ
 
-We've done this check multiple times now in previous lessons. In `changeName()`, `changeDna()`, and `feedAndMultiply()`, we used the following check:
+В предыдущих уроках мы использовали проверку `changeName ()`, `changeDna()` и `feedAndMultiply()`. Вот как это было:
 
 ```
 require(msg.sender == zombieToOwner[_zombieId]);
 ```
 
-This is the same logic we'll need for our `attack` function. Since we're using the same logic multiple times, let's move this into its own `modifier` to clean up our code and avoid repeating ourselves.
+Это та же самая логика, которая нужна для функции `attack`. Поскольку мы используем одинаковую логику несколько раз, переместим ее в собственный `modifier`. Так код станет чище и без повторений.
 
-## Put it to the test
+## Проверь себя
 
-We're back to `zombiefeeding.sol`, since this is the first place we used that logic. Let's refactor it into its own `modifier`.
+Вернемся к `zombiefeeding.sol`, где мы впервые использовали эту логику. Преобразуем ее в `modifier`.
 
-1. Create a `modifier` called `ownerOf`. It will take 1 argument, `_zombieId` (a `uint`).
+1. Создай `modifier` под названием `ownerOf`, который берет 1 аргумент: `_zombieId` (`uint`).
 
-  The body should `require` that `msg.sender` is equal to `zombieToOwner[_zombieId]`, then continue with the function. You can refer to `zombiehelper.sol` if you don't remember the syntax for a modifier.
+  Тело должно `require` (требовать), чтобы `msg.sender` совпадал с `zombieToOwner[_zombieId]`, а потом продолжал функцию. Если не помнишь синтаксис модификатора, обратись к `zombiehelper.sol`.
 
-2. Change the function definition of `feedAndMultiply` such that it users the modifier `ownerOf`.
+2. Измени определение функции `feedAndMultiply` так, чтобы она использовала модификатор `ownerOf`.
 
-3. Now that we're using a `modifier`, you can remove the line `require(msg.sender == zombieToOwner[_zombieId]);`
+3. Поскольку мы теперь используем `modifier`, то можем удалить строчку `require(msg.sender == zombieToOwner[_zombieId]);`

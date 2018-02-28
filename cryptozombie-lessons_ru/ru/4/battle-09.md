@@ -1,6 +1,6 @@
 ---
-title: Zombie Loss 😞
-actions: ['checkAnswer', 'hints']
+title: Проигрыш Зомби 😞
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -27,7 +27,7 @@ material:
               myZombie.level++;
               enemyZombie.lossCount++;
               feedAndMultiply(_zombieId, enemyZombie.dna, "zombie");
-            } // start here
+            } // Начало здесь
           }
         }
       "zombiehelper.sol": |
@@ -247,30 +247,28 @@ material:
       }
 ---
 
-Now that we've coded what happens when your zombie wins, let's figure out what happens when it **loses**.
+Теперь, когда в коде прописано, что произойдет в случае победы твоего зомби, выясним, что происходит при **поражении**.
 
-In our game, when zombies lose, they don't level down — they simply add a loss to their `lossCount`, and their cooldown is triggered so they have to wait a day before attacking again.
+В этой игре зомби при проигрыше не теряют уровень - они просто добавляют потерю к счетчику `lossCount` и запускают счетчик времени перезарядки, чтобы выждать день перед новой атакой.
 
-To implement this logic, we'll need an `else` statement.
+Для реализации этой логики нам понадобится оператор `else`.
 
-`else` statements are written just like in JavaScript and many other languages:
+Операторы `else` в Solidity написаны так же, как в JavaScript и многих других языках:
 
 ```
 if (zombieCoins[msg.sender] > 100000000) {
-  // You rich!!!
+  // Богатство!!!
 } else {
-  // We require more ZombieCoins...
+  // Нужно больше зомбокоинов...
 }
 ```
 
-## Put it to the test
+## Проверь себя
 
-1. Add an `else` statement. If our zombie loses:
+1. Добавь оператор `else`. Если зомби проигрывает:
 
-  a. Increment `myZombie`'s `lossCount`.
+  а. Увеличь `lossCount` для `myZombie`.
 
-  b. Increment `enemyZombie`'s `winCount`.
+  б. Увеличь `winCount` для `winZombie`.
 
-2. Outside of the else statement, run the `_triggerCooldown` function on `myZombie`. This way the zombie can only attack once per day.
-
-
+2. Вне оператора else запусти функцию `_triggerCooldown` на `myZombie`. Так зомби сможет атаковать только один раз в день.

@@ -1,6 +1,6 @@
 ---
-title: Payable
-actions: ['checkAnswer', 'hints']
+title: Платные опции
+actions: ['Проверить', 'Подсказать']
 requireLogin: true
 material:
   editor:
@@ -13,14 +13,14 @@ material:
 
         contract ZombieHelper is ZombieFeeding {
 
-          // 1. Define levelUpFee here
+          // 1. Здесь задай сбор за повышение уровня levelUpFee 
 
           modifier aboveLevel(uint _level, uint _zombieId) {
             require(zombies[_zombieId].level >= _level);
             _;
           }
 
-          // 2. Insert levelUp function here
+          // 2. Здесь вставь функцию levelUp 
 
           function changeName(uint _zombieId, string _newName) external aboveLevel(2, _zombieId) {
             require(msg.sender == zombieToOwner[_zombieId]);
@@ -229,68 +229,68 @@ material:
       }
 ---
 
-Up until now, we've covered quite a few **_function modifiers_**. It can be difficult to try to remember everything, so let's run through a quick review:
+Мы уже видели множество **_модификаторов функций_**. Сложно сразу все запомнить, поэтому проведем быстрый обзор:
 
-1. We have visibility modifiers that control when and where the function can be called from: `private` means it's only callable from other functions inside the contract; `internal` is like `private` but can also be called by contracts that inherit from this one; `external` can only be called outside the contract; and finally `public` can be called anywhere, both internally and externally.
+1. Модификаторы видимости контролируют вызов функции: `private` означает, что функцию могут вызвать другие функции только внутри контракта; `internal` похожа на `private`, но ее помимо функций внутри контракта могут вызывать те, которые наследуют ей; `external` может быть вызвана только извне контракта; и, наконец, `public` функцию можно вызвать откуда угодно — изнутри и извне.
 
-2. We also have state modifiers, which tell us how the function interacts with the BlockChain: `view` tells us that by running the function, no data will be saved/changed. `pure` tells us that not only does the function not save any data to the blockchain, but it also doesn't read any data from the blockchain. Both of these don't cost any gas to call if they're called externally from outside the contract (but they do cost gas if called internally by another function).
+2. Модификаторы состояния сообщают нам, как функция взаимодействует с блокчейном: `view` означает только просмотр, то есть после запуска функции данные не пересохраняются и не изменяются. `pure` означает, что функция не только не сохраняет, но даже не считывает данные из блокчейна. Обе эти функции не тратят газ, если их вызывают извне контракта (но тратят газ, если их вызывают внутренние функции).
 
-3. Then we have custom `modifiers`, which we learned about in Lesson 3: `onlyOwner` and `aboveLevel`, for example. For these we can define custom logic to determine how they affect a function.
+3. Есть пользовательские модификаторы, о которых мы узнали в уроке 3, к примеру `onlyOwner` и `aboveLevel`. Для определения их влияния на функцию нужно задавать пользовательскую логику.
 
-These modifiers can all be stacked together on a function definition as follows:
+Эти модификаторы могут быть объединены вместе в определение функции следующим образом:
 
 ```
 function test() external view onlyOwner anotherModifier { /* ... */ }
 ```
 
-In this chapter, we're going to introduce one more function modifier: `payable`.
+В этой главе мы введем еще один модификатор функции: `payable`.
 
-## The `payable` Modifier
+## Модификатор `payable`
 
-`payable` functions are part of what makes Solidity and Ethereum so cool — they are a special type of function that can receive Ether. 
+Функции `payable` — платные — одна из причин, почему Solidity и Ethereum настолько классные. Это особый тип функций, которые могут получать ETH.
 
-Let that sink in for a minute. When you call an API function on a normal web server, you can't send US dollars along with your function call — nor can you send Bitcoin.
+Подумаем минутку. Когда ты вызываешь функцию API на обычном веб-сервере, то ты не сможешь одновременно с вызовом функции отправить USD. Биткоин, к слову, тоже не сможешь:).
 
-But in Ethereum, because both the money (_Ether_), the data (*transaction payload*), and the contract code itself all live on Ethereum, it's possible for for you to call a function **and** pay money to the contract at the same time.
+Но в Ethereum и деньги (_ETH_), и данные (*транзакции*), и сам код контракта живут в блокчейне Ethereum. Поэтому можно вызвать функцию **и** одновременно заплатить за исполнение контракта.
 
-This allows for some really interesting logic, like requiring a certain payment to the contract in order to execute a function.
+Это позволяет задействовать действительно интересную логику, например, сделать запрос платежа по контракту для выполнения функции.
 
-## Let's look at an example
+## Рассмотрим пример
+
 ```
 contract OnlineStore {
   function buySomething() external payable {
-    // Check to make sure 0.001 ether was sent to the function call:
+    // Проверь, что 0.001 ETH действительно отправлен за вызов функции 
     require(msg.value == 0.001 ether);
-    // If so, some logic to transfer the digital item to the caller of the function:
+    // Если да, то вот логика, чтобы перевести цифровой актив вызывающему функцию 
     transferThing(msg.sender);
   }
 }
 ```
 
-Here, `msg.value` is a way to see how much Ether was sent to the contract, and `ether` is a built-in unit.
+Здесь `msg.value` - это способ увидеть, сколько ETH было отправлено на адрес контракта, а `ether` - встроенный блок.
 
-What happens here is that someone would call the function from web3.js (from the DApp's JavaScript front-end) as follows:
+Что произойдет, если кто-то вызовет функцию из web3.js (из внешнего интерфейса DApp JavaScript)? Смотри ниже:
 
 ```
-// Assuming `OnlineStore` points to your contract on Ethereum:
+// Допустим, `OnlineStore` указывает на контракт в Ethereum:
 OnlineStore.buySomething().send(from: web3.eth.defaultAccount, value: web3.utils.toWei(0.001))
 ```
 
-Notice the `value` field, where the javascript function call specifies how much `ether` to send (0.001). If you think of the transaction like an envelope, and the parameters you send to the function call are the contents of the letter you put inside, then adding a `value` is like putting cash inside the envelope — the letter and the money get delivered together to the recipient.
+Обрати внимание на поле `value`, где javascript-функция указывает, сколько `ether` нужно отправить (0.001). Если представить транзакцию как конверт, а параметры вызова функции как содержимое письма, то добавление `value` - это как положить наличные в конверт. Письмо и деньги вместе доставляются получателю.
 
->Note: If a function is not marked `payable` and you try to send Ether to it as above, the function will reject your transaction.
+> Примечание. Если функция не помечена как `payable`, а на нее пытаются отправить ETH, то функция отклонит  транзакцию.
 
+## Проверь себя
 
-## Putting it to the Test
+Создадим функцию `payable` для нашей зомбоигры.
 
-Let's create a `payable` function in our zombie game.
+Допустим, что у нас в игре есть функция, где пользователи платят ETH за повышение уровня своих зомби. ETH будет храниться в твоем контракте. Это простой пример, как зарабатывать деньги на играх!
 
-Let's say our game has a feature where users can pay ETH to level up their zombies. The ETH wil get stored in the contract, which you own — this a simple example of how you could make money on your games!
+1. Задай `uint` под названием `levelUpFee` и установи ее равной `0,001 ether`.
 
-1. Define a `uint` named `levelUpFee`, and set it equal to `0.001 ether`.
+2. Создай функцию под названием `levelUp`. Она берет один параметр: `_zombieId` (`uint`). Функция будет `external` и `payable`.
 
-2. Create a function named `levelUp`. It will take one parameter, `_zombieId`, a `uint`. It should be `external` and `payable`.
+3. Сперва функция требует (`require`), чтобы `msg.value` был равен `levelUpFee`.
 
-3. The function should first `require` that `msg.value` is equal to `levelUpFee`.
-
-4. It should then increment this zombie's `level`: `zombies[_zombieId].level++`.
+4. Затем функция должна повышать уровень зомби: `zombies [_zombieId].level ++`.
